@@ -1,0 +1,143 @@
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 680px;
+  width: 100%;
+  gap: 120px;
+  background: linear-gradient(to right, #60b108, #ffffd2); /* Tiêu chuẩn */
+  background: -webkit-linear-gradient(
+    right,
+    #60b108,
+    #ffffd2
+  ); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(
+    right,
+    #60b108,
+    #ffffd2
+  ); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(
+    right,
+    #60b108,
+    #ffffd2
+  ); /* Firefox 3.6 - 15 */
+  .content-right {
+    width: 480px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    .ant-input-affix-wrapper {
+      border: none;
+      border-bottom: 2px solid #d9d9d9;
+      border-radius: 0;
+      outline: none;
+
+      &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: #7f7f7f;
+        -webkit-transition: all 0.4s;
+        -o-transition: all 0.4s;
+        -moz-transition: all 0.4s;
+        transition: all 0.4s;
+      }
+    }
+    .ant-input-affix-wrapper-focused.ant-input-affix-wrapper {
+      &::after {
+        width: 100%;
+      }
+    }
+
+    .ant-input-affix-wrapper-focused {
+      box-shadow: none;
+
+      .ant-input-prefix {
+        color: #60b108;
+      }
+    }
+
+    .label {
+      font-size: 14px;
+      color: #333;
+      line-height: 1.5;
+      display: block;
+      margin-left: 8px;
+    }
+
+    .ant-input {
+      padding-left: 8px;
+    }
+    .sub-split-line {
+      background-color: #dbdbdb;
+      flex: 1;
+      height: 1px;
+      width: 100%;
+    }
+    .or {
+      color: #ccc;
+      font-size: 14px;
+    }
+    .soical {
+      .btn-facebook {
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        border-radius: 2px;
+        box-sizing: border-box;
+        color: rgba(0, 0, 0, 0.87);
+        font-size: 0.875rem;
+        height: 40px;
+        outline: none;
+        padding: 0 2px;
+        cursor: pointer;
+        width: 100%;
+        .btn-icon-facebook {
+          color: #1877f2;
+        }
+      }
+      .btn-google {
+        background-color: #fff;
+        border: 1px solid rgba(0, 0, 0, 0.26);
+        border-radius: 2px;
+        box-sizing: border-box;
+        color: rgba(0, 0, 0, 0.87);
+        font-size: 0.875rem;
+        height: 40px;
+        outline: none;
+        cursor: pointer;
+        padding: 0 2px;
+        width: 100%;
+      }
+    }
+    .text-footer {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      color: #333;
+      font-size: 14px;
+      text-decoration: none;
+      a {
+        color: red;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column;
+    gap: 20px;
+    .content-right {
+      width: 100%;
+      margin-bottom: 12px;
+    }
+  }
+}

@@ -1,0 +1,125 @@
+@import "../../assets/scss/variabels";
+.header-login {
+  position: -webkit-sticky;
+  position: sticky;
+  top: -40px;
+  z-index: 1;
+  /* height: 120px; */
+  height: $headerHeight;
+  background-color: #fff;
+  .shopname {
+    color: #333; /* Màu chữ */
+    text-align: center; /* Căn giữa nội dung */
+    text-transform: uppercase; /* Chuyển đổi văn bản thành chữ hoa */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Hiệu ứng bóng đổ */
+    font-weight: 400;
+  }
+  .nav-item {
+    .navlink {
+      &:hover {
+        color: #60b108;
+      }
+    }
+    .navlink.active {
+      color: #60b108;
+    }
+  }
+  .res-navigation {
+    display: none;
+    .list-item {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      z-index: 1;
+      width: 160px;
+      right: 0;
+      .res-nav-item {
+        display: flex !important;
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+    &:hover {
+      .list-item {
+        display: block;
+      }
+    }
+  }
+  .content-right {
+    .shop-cart-container {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -10px; /* Điều chỉnh vị trí theo ý muốn */
+      right: -12px; /* Điều chỉnh vị trí theo ý muốn */
+      background-color: #60b108; /* Màu nền cam giống Shopee */
+      color: white;
+      border-radius: 50%;
+      padding: 2px 6px;
+      font-size: 10px; /* Điều chỉnh kích thước font chữ */
+      font-weight: bold;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}
+
+.res-contact {
+  display: none;
+  position: relative;
+  &:hover {
+    .list-contact {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+}
+
+.list-contact {
+  position: absolute;
+  width: max-content;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  display: none;
+}
+@media (max-width: 768px) {
+  .header-login {
+    .header-login-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      .contact {
+        display: none;
+      }
+      .res-contact {
+        display: block;
+      }
+    }
+    .header-navigation {
+      padding: 0 10px;
+      .navigation {
+        display: none;
+      }
+      .res-navigation {
+        display: block;
+      }
+    }
+    .content-right {
+      margin-left: 0;
+    }
+  }
+}

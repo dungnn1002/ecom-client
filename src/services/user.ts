@@ -1,0 +1,40 @@
+import { AxiosResponse } from "axios";
+import {
+  QueryParamType,
+  UserQueryParamType,
+  defaultQueryParam,
+} from "../constants/type";
+import { User } from "../redux/slices/authSlice";
+import { UserState } from "../pages/Admin/components/User/AddUser";
+import { EditUserType } from "../pages/Admin/components/User/ManageUser";
+import { API } from "./axios";
+export const getAllUser = async ({
+  page,
+  limit,
+  phoneNumber,
+}: UserQueryParamType = defaultQueryParam): Promise<AxiosResponse<User[]>> => {
+  const data = await API.get("users/all", {
+    params: {
+      page,
+      limit,
+      phoneNumber,
+    },
+  });
+  return data.data;
+};
+
+export const addUser = async (data: UserState) => {
+  return await API.post("users/add-user", data);
+};
+
+export const getShopCart = async () => {
+  return (await API.get("users/shopcart")).data.data;
+};
+
+export const deleteUser = async (id: number) => {
+  return (await API.delete(`users/delete-user/${id}`)).data.data;
+};
+
+export const editUser = async (id: number, data: EditUserType) => {
+  return (await API.post(`users/edit-user/${id}`, data)).data.data;
+};

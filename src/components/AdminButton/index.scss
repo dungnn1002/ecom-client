@@ -1,0 +1,10 @@
+.cssButtonAdmin {
+  padding: 8px 16px;
+  background-color: #4096ff;
+  color: white;
+  border-radius: 8px;
+  opacity: 0.8;
+  &:hover {
+    opacity: 1;
+  }
+}

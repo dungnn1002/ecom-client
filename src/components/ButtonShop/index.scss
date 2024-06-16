@@ -1,0 +1,10 @@
+.cssButton {
+  padding: 8px 16px;
+  background-color: #60b108;
+  color: white;
+  border-radius: 8px;
+  &:hover {
+    cursor: pointer;
+    background-color: #4a8f00;
+  }
+}

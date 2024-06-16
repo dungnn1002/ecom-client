@@ -1,0 +1,23 @@
+@import "../../../../assets/scss/variabels";
+.home_banner_area {
+  min-height: 500px !important;
+  .box-banner {
+    height: 600px;
+    background-size: cover;
+    background-position: center;
+
+    .banner_inner {
+      min-height: 500px !important;
+      margin-left: 120px;
+      margin-right: 120px;
+    }
+    .banner-button {
+      padding: 10px 20px;
+      background-color: $primaryColor;
+      border-radius: 4px;
+    }
+  }
+}
+body {
+  overflow-x: hidden;
+}

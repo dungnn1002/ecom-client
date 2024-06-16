@@ -1,0 +1,21 @@
+.shop_banner {
+  .shop_banner__content {
+    display: flex;
+    background-color: #e9e9e9;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px 120px;
+  }
+  .navlink {
+    color: #6b7280;
+    &:hover {
+      color: #60b108;
+    }
+  }
+  .navlink.active {
+    color: #60b108;
+  }
+}
+.inforDetailProduct {
+  padding: 120px 120px;
+}

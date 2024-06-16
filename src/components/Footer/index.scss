@@ -1,0 +1,28 @@
+.footer {
+  background-color: #fbfbfb;
+  padding: 40px 140px;
+  li {
+    margin-bottom: 0.75rem;
+    font-size: 0.75rem;
+    &:hover {
+      color: #60b108;
+      cursor: pointer;
+    }
+  }
+}
+@media (max-width: 768px) {
+  .footer-container {
+    padding: 40px 20px;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    .soical {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+    }
+  }
+  .signature {
+    font-size: 0.6rem;
+  }
+}

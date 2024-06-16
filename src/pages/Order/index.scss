@@ -1,0 +1,120 @@
+.order-container {
+  padding: 40px 120px;
+  background-color: #f5f5f5;
+  .border-top-address-order {
+    height: 3px;
+    width: 100%;
+    background-position-x: -30px;
+    background-size: 116px 3px;
+    background-image: repeating-linear-gradient(
+      45deg,
+      #6fa6d6,
+      #6fa6d6 33px,
+      transparent 0,
+      transparent 41px,
+      #f18d9b 0,
+      #f18d9b 74px,
+      transparent 0,
+      transparent 82px
+    );
+  }
+  .address {
+    padding: 20px 40px;
+    background-color: white;
+  }
+  .shop-cart {
+    padding: 20px 40px;
+    background-color: white;
+    .header-table {
+      display: flex;
+
+      border-bottom: 2px solid #60b108;
+      .header-product-item {
+        width: 70%;
+      }
+      .header-product-price,
+      .header-product-quantity,
+      .header-product-total {
+        width: 10%;
+      }
+    }
+    .body-table {
+      display: flex;
+      align-items: center;
+      .product-item {
+        width: 70%;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        .product-name {
+          font-size: 16px;
+        }
+        .product-img {
+          width: 120px;
+          height: 120px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+      .product-price,
+      .product-quantity,
+      .product-total {
+        width: 10%;
+      }
+    }
+    .list-product,
+    .shipper {
+      border-bottom: 1px solid #60b108;
+    }
+  }
+  .wrap-payment {
+    .payment {
+      padding: 20px 40px;
+      background-color: white;
+      .content {
+        div {
+          padding: 8px 12px;
+          border: 1px solid #ccc;
+          cursor: pointer;
+          &:hover {
+            border-color: #60b108;
+          }
+        }
+        .selected {
+          border-color: #60b108;
+        }
+      }
+      .payment-option {
+        padding: 8px 12px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+      }
+      .selectedOption {
+        border-color: red;
+      }
+    }
+    .detail-payment {
+      padding: 20px 40px;
+      background-color: #fffefb;
+      .payment-detail {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        text-align: left;
+        .label {
+          flex: 0.25;
+        }
+        .value {
+          flex: 1;
+          text-align: left;
+        }
+      }
+    }
+    .button-payment {
+      padding-top: 12px;
+      border-top: 1px dashed #ccc;
+    }
+  }
+}

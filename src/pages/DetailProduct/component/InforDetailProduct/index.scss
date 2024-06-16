@@ -1,0 +1,95 @@
+.container {
+  .carousel {
+    width: 80%;
+    .carousel-inner {
+      .carousel-item {
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+  .slider-container {
+    .slick-slide {
+      &:hover {
+        border: #60b108 1px solid;
+      }
+    }
+    .slick-prev {
+      z-index: 50 !important;
+    }
+    .slick-prev::before,
+    .slick-next::before {
+      font-size: 40px;
+      color: #ccc !important;
+    }
+
+    .slick-next {
+      z-index: 50 !important;
+      right: -4px;
+    }
+    img {
+      cursor: pointer;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+      &:active {
+        opacity: 1;
+      }
+    }
+  }
+  .information {
+    .text-name {
+      font-size: 20px;
+      font-weight: 500;
+      line-height: 24px;
+      word-wrap: break-word; /* Đảm bảo văn bản xuống dòng khi quá dài */
+      overflow-wrap: break-word; /* Tương tự như word-wrap */
+      white-space: normal; /* Đảm bảo văn bản không bị cắt cụt */
+      margin: 0; /* Loại bỏ khoảng cách mặc định nếu cần */
+      padding: 0; /* Loại bỏ padding mặc định nếu cần */
+    }
+    .box-size {
+      padding: 8px 24px;
+      margin-left: 4px;
+      border: 1px solid #e9e9e9;
+      &:hover {
+        cursor: pointer;
+        border: 1px solid #60b108;
+      }
+    }
+    .selected-size {
+      border: 1px solid #60b108 !important;
+    }
+    .info-row {
+      display: flex;
+      align-items: center;
+      .text-label {
+        flex: 0 0 120px; /* Điều chỉnh chiều rộng của nhãn */
+      }
+
+      .text-value {
+        flex: 1;
+      }
+    }
+  }
+  .cssTab {
+    .ant-tabs {
+      .ant-tabs-tab {
+        &:hover {
+          color: #60b108;
+        }
+      }
+    }
+    .ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+      color: #60b108;
+      text-shadow: 0 0 0.25px currentcolor;
+    }
+    .ant-tabs .ant-tabs-ink-bar {
+      position: absolute;
+      background: #60b108;
+      pointer-events: none;
+    }
+  }
+}

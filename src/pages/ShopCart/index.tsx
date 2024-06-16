@@ -21,7 +21,7 @@ import {
   deleteProductShopCart,
   updateProductShopCart,
 } from "../../redux/actions/shopCart.action";
-type Cart = {
+export type Cart = {
   id: number;
   name: string;
   price: number;

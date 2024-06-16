@@ -1,31 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { MdOutlinePayment } from "react-icons/md";
 import "./index.scss";
 import { ButtonShop } from "../../components";
 import { getShopCart } from "../../services/user";
 import { getAllTypeShip } from "../../services/typeship";
-const listProduct = [
-  {
-    id: 1,
-    name: "Áo thun nam",
-    image:
-      "https://down-vn.img.susercontent.com/file/vn-11134201-7qukw-li6s4qtmtg5o09",
-    price: 100000,
-    quantity: 1,
-    total: 100000,
-  },
-  {
-    id: 2,
-    name: "Áo thun nam",
-    image:
-      "https://down-vn.img.susercontent.com/file/vn-11134201-7qukw-li6s4qtmtg5o09",
-    price: 100000,
-    quantity: 1,
-    total: 100000,
-  },
-];
+import { Cart } from "../ShopCart/index";
+
 const Order: React.FC = () => {
+  useEffect(() => {
+    getShopCart().then((res) => {
+      const listProduct = res.map((item: any) => {
+        return {
+          id: item.id,
+          name: item.productSize.product.name + " - " + item.productSize.size,
+          price: item.productSize.product.discountPrice,
+          quantity: item.quantity,
+          image: item.productSize.productImage,
+        };
+      });
+      setListProduct(listProduct);
+    });
+  }, []);
+  const [listProduct, setListProduct] = useState<Cart[]>([]);
   const [selectedPayment, setSelectedPayment] = useState("");
   const [selectedPaymentOption, setSelectedPaymentOption] = useState("");
   const handlePaymentOnline = () => {
@@ -84,9 +81,11 @@ const Order: React.FC = () => {
                     <div className="product-name">{product.name}</div>
                   </div>
                   <div className="product-price">{product.price}</div>
-                  <div className="product-quantity text-center">1</div>
+                  <div className="product-quantity text-center">
+                    {product.quantity}
+                  </div>
                   <div className="product-total text-[#60b108]">
-                    {product.total}
+                    {/* {product.total} */}
                   </div>
                 </div>
               </div>

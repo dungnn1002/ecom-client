@@ -28,12 +28,12 @@ export type Cart = {
   quantity: number;
   image: string;
 };
-type TypeShip = {
+export type TypeShip = {
   id: number;
   name: string;
   price: number;
 };
-type Voucher = {
+export type TypeVoucher = {
   name: string;
   typeVoucher: string;
   maxValue: number;
@@ -45,11 +45,13 @@ const ShopCart: React.FC = () => {
   const [listProduct, setListProduct] = useState<Cart[]>([]);
   const [listTypeShip, setListTypeShip] = useState<TypeShip[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [listVoucher, setListVoucher] = useState<Voucher[]>([]);
+  const [listVoucher, setListVoucher] = useState<TypeVoucher[]>([]);
   const [totalShopCart, setTotalShopCart] = useState<number>(0);
   const [priceTypeShip, setPriceTypeShip] = useState<number>(0); // Giá trị typeShip được chọn
   const [priceDiscount, setPriceDiscount] = useState<number>(0); // Giá trị giảm giá
-  const [selectedVoucher, setSelectedVoucher] = useState<Voucher | null>(null);
+  const [selectedVoucher, setSelectedVoucher] = useState<TypeVoucher | null>(
+    null
+  );
   const showModal = () => {
     setIsModalOpen(true);
   };
@@ -57,6 +59,7 @@ const ShopCart: React.FC = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   useEffect(() => {
     getShopCart().then((res) => {
       const listProduct = res.map((item: any) => {
@@ -106,7 +109,6 @@ const ShopCart: React.FC = () => {
       (total, product) => total + product.price * product.quantity,
       0
     );
-    console.log("check", subtotal, priceTypeShip, priceDiscount);
 
     setTotalShopCart(subtotal + priceTypeShip - priceDiscount); // Cộng thêm giá trị vận chuyển
   }, [listProduct, priceTypeShip, priceDiscount]);
@@ -137,6 +139,10 @@ const ShopCart: React.FC = () => {
   };
 
   const handleNavigateOrder = () => {
+    // pass data to order page
+    localStorage.setItem("priceTypeShip", priceTypeShip.toString());
+    localStorage.setItem("priceDiscount", priceDiscount.toString());
+    localStorage.setItem("selectedVoucher", JSON.stringify(selectedVoucher));
     navigate("/order");
   };
 

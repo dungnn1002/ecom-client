@@ -5,7 +5,6 @@ import {
   updateShopCart,
 } from "../../services/shopCart";
 import { TypeParamsPostShopCart } from "../../pages/DetailProduct/component/InforDetailProduct";
-
 export const addProductShopCart = createAsyncThunk(
   "shopCart/addProduct",
   async (data: TypeParamsPostShopCart, { rejectWithValue }) => {

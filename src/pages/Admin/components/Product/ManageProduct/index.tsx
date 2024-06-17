@@ -27,7 +27,6 @@ import { fetchAndProcessBrands } from "../../../../../constants/brand";
 import { fetchAndProcessCategory } from "../../../../../constants/category";
 import { PlusOutlined } from "@ant-design/icons";
 import { RcFile } from "antd/es/upload";
-import { log } from "console";
 const { Search } = Input;
 export interface ProductType {
   id: number;

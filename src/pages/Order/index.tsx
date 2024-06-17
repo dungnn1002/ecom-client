@@ -2,12 +2,41 @@ import React, { useEffect, useState } from "react";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { MdOutlinePayment } from "react-icons/md";
 import "./index.scss";
-import { ButtonShop } from "../../components";
+import { AdminButton, ButtonShop, Voucher } from "../../components";
 import { getShopCart } from "../../services/user";
 import { getAllTypeShip } from "../../services/typeship";
 import { Cart } from "../ShopCart/index";
+import commonUtils from "../../utils/commonUtils";
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  Radio,
+  RadioChangeEvent,
+  Space,
+} from "antd";
+import { TypeShip, TypeVoucher } from "../ShopCart/index";
+import { getAllCodeVoucher } from "../../services/voucher";
 
 const Order: React.FC = () => {
+  const [priceTypeShip, setPriceTypeShip] = useState<number>(0); // Giá trị typeShip được chọn
+  const [priceDiscount, setPriceDiscount] = useState<number>(0); // Giá trị giảm giá
+  const [totalShopCart, setTotalShopCart] = useState<number>(0);
+  const [listProduct, setListProduct] = useState<Cart[]>([]);
+  const [selectedPayment, setSelectedPayment] = useState("");
+  const [selectedPaymentOption, setSelectedPaymentOption] = useState("");
+  const [listTypeShip, setListTypeShip] = useState<TypeShip[]>([]);
+  const [listVoucher, setListVoucher] = useState<TypeVoucher[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [selectedVoucher, setSelectedVoucher] = useState<TypeVoucher | null>(
+    null
+  );
+  const [selectedAddress, setSelectedAddress] = useState<number>(0); // Chỉ số địa chỉ đang được chọn
+  const [isAddressModalOpen, setIsAddressModalOpen] = useState<boolean>(false); // Trạng thái mở của modal địa chỉ
+  const [openModalAddNewAddress, setOpenModalAddNewAddress] =
+    useState<boolean>(false);
+  const [form] = Form.useForm();
   useEffect(() => {
     getShopCart().then((res) => {
       const listProduct = res.map((item: any) => {
@@ -21,26 +50,141 @@ const Order: React.FC = () => {
       });
       setListProduct(listProduct);
     });
+    getAllTypeShip().then((res) => {
+      const listTypeShip = res.data.map((item: any) => {
+        return {
+          id: item.id,
+          name: item.name,
+          price: item.price,
+        };
+      });
+      setListTypeShip(listTypeShip);
+      if (listTypeShip.length > 0) {
+        setPriceTypeShip(
+          parseFloat(
+            localStorage.getItem("priceTypeShip") || listTypeShip[0].price
+          )
+        );
+      }
+    });
+    getAllCodeVoucher().then((res) => {
+      const listVoucher = res.data.map((item: any) => {
+        if (item.typeVoucher.typeVoucher === "PHAN_TRAM") {
+          item.typeVoucher.typeVoucher = "%";
+        } else {
+          item.typeVoucher.typeVoucher = "VNĐ";
+        }
+        return {
+          id: item.id,
+          name: item.codeVoucher,
+          value: item.typeVoucher.value + item.typeVoucher.typeVoucher,
+          maxValue: item.typeVoucher.maxValue,
+          usedAmount: item.usedAmount,
+          typeVoucher: item.typeVoucher.typeVoucher,
+        };
+      });
+      setListVoucher(listVoucher);
+      if (listVoucher.length > 0) {
+        setPriceDiscount(
+          parseFloat(localStorage.getItem("priceDiscount") || "0")
+        );
+        setSelectedVoucher(
+          JSON.parse(localStorage.getItem("selectedVoucher") || "{}")
+        );
+      }
+    });
   }, []);
-  const [listProduct, setListProduct] = useState<Cart[]>([]);
-  const [selectedPayment, setSelectedPayment] = useState("");
-  const [selectedPaymentOption, setSelectedPaymentOption] = useState("");
+  useEffect(() => {
+    const subtotal = listProduct.reduce(
+      (total, product) => total + product.price * product.quantity,
+      0
+    );
+
+    setTotalShopCart(subtotal + priceTypeShip - priceDiscount); // Cộng thêm giá trị vận chuyển
+  }, [listProduct, priceTypeShip, priceDiscount]);
   const handlePaymentOnline = () => {
     setSelectedPayment("online");
-    console.log("Thanh toán online");
   };
   const handlePaymentOffice = () => {
     setSelectedPayment("office");
-    console.log("Thanh toán khi nhận hàng");
   };
   const handlePaymentPaypal = () => {
     setSelectedPaymentOption("paypal");
-    console.log("Thanh toán paypal");
   };
   const handlePaymentVnpay = () => {
     setSelectedPaymentOption("vnpay");
-    console.log("Thanh toán vnpay");
   };
+  const onChangeTypeShip = (e: RadioChangeEvent) => {
+    const newPrice = parseFloat(e.target.value);
+    setPriceTypeShip(newPrice);
+  };
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const handleClickApplyVoucher = (
+    typeVoucher: string,
+    maxValue: number,
+    value: string,
+    name: string
+  ) => {
+    const voucherValue = parseFloat(value.slice(0, -1));
+    const currentTotalShopCart = totalShopCart + priceDiscount;
+    let newPriceDiscount = 0;
+    if (typeVoucher === "%") {
+      newPriceDiscount = Math.min(
+        (currentTotalShopCart * voucherValue) / 100,
+        maxValue
+      );
+    }
+    setSelectedVoucher({ name, value, maxValue, typeVoucher, usedAmount: 0 });
+    setPriceDiscount(newPriceDiscount);
+    setIsModalOpen(false);
+  };
+  const handleAddressChange = () => {
+    setIsAddressModalOpen(true);
+  };
+
+  const handleAddressOk = () => {
+    setIsAddressModalOpen(false);
+  };
+
+  const handleSelectAddress = (e: RadioChangeEvent) => {
+    setSelectedAddress(parseInt(e.target.value));
+  };
+  const handleAddNewAddress = () => {
+    setIsAddressModalOpen(false);
+    setOpenModalAddNewAddress(true);
+  };
+  const handleAddNewAddressOk = () => {
+    form.validateFields().then((values) => {
+      console.log(values);
+      setOpenModalAddNewAddress(false);
+    });
+  };
+  const handleCancelAddNewAddress = () => {
+    setOpenModalAddNewAddress(false);
+  };
+  const listAddress = [
+    {
+      name: "Nguyễn Văn A",
+      phone: "(0974979259)",
+      address: "Số 1, Đại Cồ Việt, Hai Bà Trưng, Hà Nội",
+    },
+    {
+      name: "Nguyễn Văn B",
+      phone: "(0974979259)",
+      address: "Số 2, Đại Cồ Việt, Hai Bà Trưng, Hà Nội",
+    },
+    {
+      name: "Nguyễn Văn C",
+      phone: "(0974979259)",
+      address: "Số 3, Đại Cồ Việt, Hai Bà Trưng, Hà Nội",
+    },
+  ];
   return (
     <div className="order-container">
       <div className="wrap">
@@ -49,20 +193,121 @@ const Order: React.FC = () => {
           <div className="address">
             <div className="flex items-center gap-2 text-[#60b108] mb-3">
               <FaMapMarkerAlt className="icon" />
-              <div className="text-xl font-medium"> Địa chỉ giao hàng</div>
+              <div className="text-xl font-medium">Địa chỉ giao hàng</div>
             </div>
             <div className="content flex justify-between">
               <div className="flex font-bold">
-                <div className="name">Nguyễn Văn A </div>
-                <div className="phone">(0974979259)</div>
+                <div className="name">{listAddress[selectedAddress].name}</div>
+                <div className="phone">
+                  {listAddress[selectedAddress].phone}
+                </div>
               </div>
               <div className="address-detail">
-                Số 1, Đại Cồ Việt, Hai Bà Trưng, Hà Nội
+                {listAddress[selectedAddress].address}
               </div>
-              <div className="edit">Thay đổi</div>
+              <div
+                className="edit text-[#60b108] cursor-pointer"
+                onClick={handleAddressChange}
+              >
+                Thay đổi
+              </div>
             </div>
           </div>
         </div>
+        <Modal
+          title="Chọn địa chỉ giao hàng"
+          open={isAddressModalOpen}
+          footer={[
+            <div>
+              <AdminButton key="submit" onClick={handleAddressOk}>
+                Cập nhật
+              </AdminButton>
+            </div>,
+          ]}
+        >
+          <Space direction="vertical" className="w-full">
+            {listAddress.map((address, index) => (
+              <Radio
+                key={index}
+                value={index}
+                onChange={handleSelectAddress}
+                checked={selectedAddress === index}
+                className="block p-2 border rounded-md hover:bg-gray-100 cursor-pointer transition-colors duration-200 ease-in-out"
+              >
+                <div className="flex flex-col">
+                  <span className="font-semibold text-lg">{address.name}</span>
+                  <span className="text-gray-500">{address.address}</span>
+                </div>
+              </Radio>
+            ))}
+          </Space>
+          <Button
+            type="dashed"
+            className="mt-4 w-full border-gray-300 rounded-md hover:bg-gray-200 transition-colors duration-200 ease-in-out"
+            onClick={handleAddNewAddress}
+          >
+            Thêm địa chỉ mới
+          </Button>
+        </Modal>
+        <Modal
+          title="Thêm địa chỉ mới"
+          open={openModalAddNewAddress}
+          footer={[
+            <div className="flex gap-2 items-center justify-end">
+              <div>
+                <button
+                  className="bg-gray-400 text-white py-2 px-4 rounded-lg hover:bg-gray-500"
+                  key="back"
+                  onClick={handleCancelAddNewAddress}
+                >
+                  Hủy
+                </button>
+              </div>
+              ,
+              <div>
+                <AdminButton key="submit" onClick={handleAddNewAddressOk}>
+                  Cập nhật
+                </AdminButton>
+              </div>
+              ,
+            </div>,
+          ]}
+        >
+          <Form form={form} layout="vertical">
+            <div className="flex justify-between">
+              <Form.Item
+                label="Họ và tên"
+                name="name"
+                rules={[{ required: true, message: "Vui lòng nhập tên" }]}
+              >
+                <Input />
+              </Form.Item>
+              <Form.Item
+                label="Số điện thoại"
+                name="phoneNumber"
+                rules={[
+                  { required: true, message: "Vui lòng nhập số điện thoại" },
+                ]}
+              >
+                <Input />
+              </Form.Item>
+            </div>
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: "Vui lòng nhập email" }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label="Địa chỉ"
+              name="address"
+              rules={[{ required: true, message: "Vui lòng nhập địa chỉ" }]}
+            >
+              <Input />
+            </Form.Item>
+          </Form>
+        </Modal>
         <div className="shop-cart mt-8">
           <div className="header-table pb-2 text-[#797979]">
             <div className="header-product-item">Sản phẩm</div>
@@ -85,7 +330,9 @@ const Order: React.FC = () => {
                     {product.quantity}
                   </div>
                   <div className="product-total text-[#60b108]">
-                    {/* {product.total} */}
+                    {commonUtils.formatPriceToVND(
+                      product.price * product.quantity
+                    )}
                   </div>
                 </div>
               </div>
@@ -93,9 +340,13 @@ const Order: React.FC = () => {
           </div>
           <div className="shipper px-2 flex justify-between py-4">
             <div>Đơn vị vận chuyển</div>
-            <div className="font-semibold text-[#60b108]">
-              Giao hàng tiết kiệm
-            </div>
+            <Radio.Group onChange={onChangeTypeShip} value={priceTypeShip}>
+              <Space direction="vertical">
+                {listTypeShip.map((typeShip) => (
+                  <Radio value={typeShip.price}>{typeShip.name}</Radio>
+                ))}
+              </Space>
+            </Radio.Group>
           </div>
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-8 mt-8">
@@ -104,16 +355,45 @@ const Order: React.FC = () => {
                 <a
                   className="font-semibold text cursor-pointer text-[#60b108]"
                   type="link"
+                  onClick={showModal}
                 >
                   Chọn hoặc nhập mã
                 </a>
               </div>
+              <div>
+                <a className="font-semibold text cursor-pointer text-[#60b108]">
+                  {selectedVoucher?.name}
+                </a>
+              </div>
+              <Modal
+                title="Chọn EaseVoucher"
+                open={isModalOpen}
+                onCancel={handleCancel}
+                footer={[
+                  <Button key="cancel" onClick={handleCancel}>
+                    Hủy
+                  </Button>,
+                ]}
+              >
+                {listVoucher.map((voucher) => (
+                  <div className="mb-4">
+                    <Voucher
+                      name={voucher.name}
+                      typeVoucher={voucher.typeVoucher}
+                      maxValue={voucher.maxValue}
+                      usedAmount={voucher.usedAmount}
+                      value={voucher.value}
+                      handleClickApplyVoucher={handleClickApplyVoucher}
+                    />
+                  </div>
+                ))}
+              </Modal>
             </div>
             <div className="flex justify-between mt-8 px-2 items-center">
               <div>Tổng thanh toán </div>
-              <div>(2 sản phẩm) :</div>
+              <div>({listProduct.length} sản phẩm) :</div>
               <div className="font-semibold text-[#60b108] text-2xl ml-4">
-                200000đ
+                {commonUtils.formatPriceToVND(totalShopCart)}
               </div>
             </div>
           </div>
@@ -166,22 +446,33 @@ const Order: React.FC = () => {
           <div className="detail-payment">
             <div className="payment-detail">
               <span className="label">Tổng tiền hàng:</span>
-              <span className="value">₫0</span>
+              <span className="value">
+                {commonUtils.formatPriceToVND(
+                  totalShopCart + priceDiscount - priceTypeShip
+                )}
+              </span>
             </div>
             <div className="payment-detail">
               <span className="label">Tổng giảm giá:</span>
-              <span className="value">₫0</span>
+              <span className="value">
+                {commonUtils.formatPriceToVND(priceDiscount)}
+              </span>
             </div>
             <div className="payment-detail">
               <span className="label">Phí vận chuyển:</span>
-              <span className="value">₫0</span>
+              <span className="value">
+                {" "}
+                {commonUtils.formatPriceToVND(priceTypeShip)}
+              </span>
             </div>
             <div className="payment-detail">
               <span className="label">Tổng thanh toán:</span>
-              <span className="value">₫0</span>
+              <span className="value">
+                {commonUtils.formatPriceToVND(totalShopCart)}
+              </span>
             </div>
             <div className="button-payment">
-              <ButtonShop>Thanh toán</ButtonShop>
+              <ButtonShop>Đặt hàng</ButtonShop>
             </div>
           </div>
         </div>

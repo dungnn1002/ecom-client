@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   addProductShopCart,
   deleteProductShopCart,
-  updateProductShopCart,
 } from "../actions/shopCart.action";
 import { COMMON } from "../../constants/common";
 import { RootState } from "../store";
@@ -53,14 +52,6 @@ const shopCartSlice = createSlice({
       );
       if (state.listCartItem.length === 0) {
         localStorage.removeItem(COMMON.CART_ITEMS);
-      }
-    });
-    builder.addCase(updateProductShopCart.fulfilled, (state, action) => {
-      const productIndex = state.listCartItem.findIndex(
-        (item) => item.productSizeId === action.payload.productSizeId
-      );
-      if (productIndex !== -1) {
-        state.listCartItem[productIndex].quantity = action.payload.quantity;
       }
     });
   },

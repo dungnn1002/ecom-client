@@ -45,3 +45,19 @@ export type ListType = {
   value: number;
   label: string;
 };
+
+export type TypeShipAddressResponse = {
+  id: number;
+  shipAddress: string;
+  shipName: string;
+  shipPhone: string;
+  shipEmail: string;
+};
+
+export type ParamPostShipAddress = {
+  userId: number;
+  shipAddress: string;
+  shipName: string;
+  shipPhone: string;
+  shipEmail: string;
+};

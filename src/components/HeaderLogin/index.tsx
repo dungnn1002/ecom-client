@@ -47,11 +47,6 @@ const HeaderLogin: React.FC = () => {
       path: "/shop",
     },
     {
-      key: "blog",
-      name: "Tin tức",
-      path: "/blog",
-    },
-    {
       key: "voucher",
       name: "Giảm giá",
       path: "/voucher",

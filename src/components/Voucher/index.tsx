@@ -1,7 +1,6 @@
 import React from "react";
 import "./index.scss";
 import logoVoucher from "../../assets/img/logoVoucher.png";
-import commonUtils from "../../utils/commonUtils";
 type VoucherProps = {
   handleClickApplyVoucher(
     typeVoucher: string,
@@ -13,7 +12,7 @@ type VoucherProps = {
   typeVoucher: string;
   value: string;
   maxValue: number;
-  usedAmount: number;
+  amount: number;
 };
 
 const Voucher: React.FC<VoucherProps> = (props: VoucherProps) => {
@@ -46,13 +45,7 @@ const Voucher: React.FC<VoucherProps> = (props: VoucherProps) => {
             Giảm tối đa {props.maxValue}
           </span>
           <div className="box-percent">
-            <div className="wrap-percent">
-              <div
-                style={{ width: `${props.usedAmount}%` }}
-                className="percent"
-              ></div>
-            </div>
-            <span className="used-percent">Đã dùng {props.usedAmount}%</span>
+            <span className="used-percent">Số lượng {props.amount}</span>
           </div>
         </div>
       </div>

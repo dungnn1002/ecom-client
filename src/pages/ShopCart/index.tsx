@@ -37,7 +37,7 @@ export type TypeVoucher = {
   name: string;
   typeVoucher: string;
   maxValue: number;
-  usedAmount: number;
+  amount: number;
   value: string;
 };
 const ShopCart: React.FC = () => {
@@ -96,7 +96,7 @@ const ShopCart: React.FC = () => {
           name: item.codeVoucher,
           value: item.typeVoucher.value + item.typeVoucher.typeVoucher,
           maxValue: item.typeVoucher.maxValue,
-          usedAmount: item.usedAmount,
+          amount: item.amount,
           typeVoucher: item.typeVoucher.typeVoucher,
         };
       });
@@ -110,7 +110,7 @@ const ShopCart: React.FC = () => {
       0
     );
 
-    setTotalShopCart(subtotal + priceTypeShip - priceDiscount); // Cộng thêm giá trị vận chuyển
+    setTotalShopCart(subtotal + priceTypeShip - priceDiscount);
   }, [listProduct, priceTypeShip, priceDiscount]);
 
   const navigate = useNavigate();
@@ -161,7 +161,7 @@ const ShopCart: React.FC = () => {
         maxValue
       );
     }
-    setSelectedVoucher({ name, value, maxValue, typeVoucher, usedAmount: 0 });
+    setSelectedVoucher({ name, value, maxValue, typeVoucher, amount: 1 });
     setPriceDiscount(newPriceDiscount);
     setIsModalOpen(false);
   };
@@ -254,7 +254,7 @@ const ShopCart: React.FC = () => {
                   name={voucher.name}
                   typeVoucher={voucher.typeVoucher}
                   maxValue={voucher.maxValue}
-                  usedAmount={voucher.usedAmount}
+                  amount={voucher.amount}
                   value={voucher.value}
                   handleClickApplyVoucher={handleClickApplyVoucher}
                 />

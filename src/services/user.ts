@@ -1,8 +1,8 @@
 import { AxiosResponse } from "axios";
 import {
-  QueryParamType,
   UserQueryParamType,
   defaultQueryParam,
+  ParamPostShipAddress,
 } from "../constants/type";
 import { User } from "../redux/slices/authSlice";
 import { UserState } from "../pages/Admin/components/User/AddUser";
@@ -31,10 +31,21 @@ export const getShopCart = async () => {
   return (await API.get("users/shopcart")).data.data;
 };
 
+export const getShipAddress = async () => {
+  return (await API.get("users/ship-address")).data;
+};
 export const deleteUser = async (id: number) => {
   return (await API.delete(`users/delete-user/${id}`)).data.data;
 };
 
 export const editUser = async (id: number, data: EditUserType) => {
   return (await API.post(`users/edit-user/${id}`, data)).data.data;
+};
+
+export const addShipAddress = async (data: ParamPostShipAddress) => {
+  return (await API.post("address/add", data)).data;
+};
+
+export const deleteShipAddress = async (id: number) => {
+  return (await API.delete(`address/delete/${id}`)).data;
 };

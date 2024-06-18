@@ -4,7 +4,7 @@ import { FaFacebook, FaTiktok } from "react-icons/fa";
 import { AiFillInstagram } from "react-icons/ai";
 const Footer: React.FC = () => {
   return (
-    <div className="footer d-center">
+    <div className="footer d-center mt-20">
       <div className="flex footer-container justify-between border-b-2 pb-1">
         <div>
           <div className="mb-5 font-bold text-xs">CHĂM SÓC KHÁCH HÀNG</div>

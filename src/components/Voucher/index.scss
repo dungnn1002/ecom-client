@@ -98,24 +98,7 @@
       }
       .box-percent {
         display: flex;
-
         flex-direction: column;
-        .wrap-percent {
-          height: 8px;
-          border-radius: 2.5rem;
-          width: 130px;
-          background: rgba(0, 0, 0, 0.09);
-          overflow: hidden;
-          margin-top: 4px;
-          .percent {
-            height: 100%;
-            background: linear-gradient(
-              270deg,
-              rgb(238, 77, 45) 0%,
-              rgb(238, 77, 45) 100%
-            );
-          }
-        }
         .used-percent {
           color: rgb(255, 66, 79);
           font-size: 14px;

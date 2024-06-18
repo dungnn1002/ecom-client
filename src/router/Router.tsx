@@ -6,6 +6,7 @@ import {
   DetailProduct,
   ShopCart,
   Order,
+  VoucherPage,
 } from "../pages";
 import { ManageUser, AddUser } from "../pages/Admin/components/User";
 import { ManageProduct, AddProduct } from "../pages/Admin/components/Product";
@@ -32,6 +33,7 @@ const Router: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/shop" element={<Shop />}></Route>
+        <Route path="/voucher" element={<VoucherPage />}></Route>
         {/* <Route path="/detail-product/:id" element={<DetailProduct />} /> */}
         <Route path="/detail-product/:id" element={<DetailProduct />} />
         <Route path="/admin" element={<ProtectedRouter role={COMMON.ADMIN} />}>

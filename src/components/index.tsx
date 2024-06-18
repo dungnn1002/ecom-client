@@ -8,3 +8,4 @@ export { default as AdminButton } from "./AdminButton";
 export { default as ButtonShop } from "./ButtonShop";
 export { default as DefaultLayout } from "./DefaultLayout";
 export { default as Voucher } from "./Voucher";
+export { default as BigVoucher } from "./BigVoucher";

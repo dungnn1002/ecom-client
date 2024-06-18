@@ -1,6 +1,7 @@
 import React from "react";
 import "./index.scss";
 import logoVoucher from "../../assets/img/logoVoucher.png";
+import commonUtils from "../../utils/commonUtils";
 type VoucherProps = {
   handleClickApplyVoucher(
     typeVoucher: string,
@@ -42,7 +43,7 @@ const Voucher: React.FC<VoucherProps> = (props: VoucherProps) => {
             Dùng ngay
           </a>
           <span className="max-value-voucher">
-            Giảm tối đa {props.maxValue}
+            Giảm tối đa {commonUtils.formatPriceToVND(props.maxValue)}
           </span>
           <div className="box-percent">
             <span className="used-percent">Số lượng {props.amount}</span>

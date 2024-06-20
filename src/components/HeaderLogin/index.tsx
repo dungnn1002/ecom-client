@@ -182,7 +182,12 @@ const HeaderLogin: React.FC = () => {
               <div className="cart-count">{listCartItem.length}</div>
             )}
           </div>
-          <GoPerson className="text-1xl cursor-pointer" />
+          <GoPerson
+            onClick={() => {
+              navigate(`/profile/${user?.id}`);
+            }}
+            className="text-1xl cursor-pointer"
+          />
         </div>
       </div>
     </div>

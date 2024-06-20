@@ -7,3 +7,4 @@ export { default as DetailProduct } from "./DetailProduct";
 export { default as ShopCart } from "./ShopCart";
 export { default as Order } from "./Order";
 export { default as VoucherPage } from "./Voucher";
+export { default as ProfilePage } from "./Profile";

@@ -16,6 +16,7 @@ export interface UserState {
   dateOfBirth: string;
   gender: string;
   roleId: string;
+  image?: string;
 }
 
 const AddUser: React.FC = () => {

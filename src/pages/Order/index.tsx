@@ -99,7 +99,7 @@ const Order: React.FC = () => {
           name: item.codeVoucher,
           value: item.typeVoucher.value + item.typeVoucher.typeVoucher,
           maxValue: item.typeVoucher.maxValue,
-          usedAmount: item.usedAmount,
+          amount: item.amount,
           typeVoucher: item.typeVoucher.typeVoucher,
         };
       });
@@ -160,7 +160,7 @@ const Order: React.FC = () => {
         maxValue
       );
     }
-    setSelectedVoucher({ name, value, maxValue, typeVoucher, usedAmount: 0 });
+    setSelectedVoucher({ name, value, maxValue, typeVoucher, amount: 1 });
     setPriceDiscount(newPriceDiscount);
     setIsModalOpen(false);
   };
@@ -417,8 +417,8 @@ const Order: React.FC = () => {
                         name={voucher.name}
                         typeVoucher={voucher.typeVoucher}
                         maxValue={voucher.maxValue}
-                        usedAmount={voucher.usedAmount}
                         value={voucher.value}
+                        amount={voucher.amount}
                         handleClickApplyVoucher={handleClickApplyVoucher}
                       />
                     </div>

@@ -4,7 +4,6 @@ import Slider from "react-slick";
 import type { InputNumberProps } from "antd";
 import { InputNumber, Tabs } from "antd";
 import { ButtonShop } from "../../../../components";
-import { DetailedSpecifications } from "./component";
 import type { TabsProps } from "antd";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -62,11 +61,6 @@ const InforDetailProduct: React.FC<InforDetailProductProps> = (
     }
   };
   const items: TabsProps["items"] = [
-    {
-      key: "1",
-      label: "Thông số chi tiết",
-      children: <DetailedSpecifications />,
-    },
     {
       key: "2",
       label: "Mô tả chi tiết",

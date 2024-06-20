@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import "./index.scss";
+import React, { useEffect, useState } from "react";
 import { HeaderLogin, Footer, AdminButton } from "../../components";
 import {
   DatePicker,
@@ -10,8 +9,9 @@ import {
   Select,
   Upload,
   UploadProps,
+  message,
 } from "antd";
-import { COMMON } from "../../constants";
+import { COMMON, DATE_FORMAT } from "../../constants";
 import FormItem from "antd/es/form/FormItem";
 import { FaPersonBreastfeeding } from "react-icons/fa6";
 import { UserState } from "../Admin/components/User/AddUser";
@@ -20,6 +20,13 @@ import { PlusOutlined } from "@ant-design/icons";
 import { IoPersonSharp } from "react-icons/io5";
 import { BiSolidDiscount } from "react-icons/bi";
 import { LuClipboardList } from "react-icons/lu";
+import { editProfile } from "../../services/user";
+import dayjs from "dayjs";
+import { authSelector } from "../../redux/slices/authSlice";
+import { useSelector } from "react-redux";
+import { getMe } from "../../redux/actions/auth.action";
+import { useAppDispatch } from "../../redux/store";
+import { useNavigate } from "react-router-dom";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 const getBase64 = (file: FileType): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -29,8 +36,13 @@ const getBase64 = (file: FileType): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 const ProfilePage: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { user } = useSelector(authSelector);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
+  const [messageApi, contextHolder] = message.useMessage();
+  const [form] = Form.useForm();
   const beforeUpload = (file: RcFile) => {
     return false;
   };
@@ -53,35 +65,65 @@ const ProfilePage: React.FC = () => {
       <div style={{ marginTop: 8 }}>Upload</div>
     </button>
   );
+  const defaultValue = {
+    firstName: user?.firstName || "",
+    lastName: user?.lastName || "",
+    phoneNumber: user?.phoneNumber || "",
+    address: user?.address || "",
+    dateOfBirth: user?.dob ? dayjs(user.dob) : undefined,
+    gender: user?.gender || COMMON.NAM, // Hoặc giá trị mặc định khác nếu cần
+  };
+
+  useEffect(() => {
+    form.setFieldsValue(defaultValue); // Đặt giá trị mặc định cho form khi component được tải lần đầu
+  }, [form, defaultValue]);
+
   const handleSubmit = async (value: UserState) => {
-    console.log(value);
+    const formData = new FormData();
+    value.dateOfBirth = dayjs(value.dateOfBirth).format(DATE_FORMAT) || "";
+    formData.append("firstName", value.firstName);
+    formData.append("lastName", value.lastName);
+    formData.append("phoneNumber", value.phoneNumber);
+    formData.append("address", value.address);
+    formData.append("dateOfBirth", value.dateOfBirth);
+    formData.append("gender", value.gender);
+    formData.append("image", fileList[0].originFileObj as Blob);
+    try {
+      const res = await editProfile(formData);
+      const message = res.message;
+      messageApi.open({
+        type: "success",
+        content: message,
+      });
+      if (localStorage.getItem(COMMON.ACCESS_TOKEN)) {
+        dispatch(getMe());
+      }
+    } catch (error: any) {
+      message.error(error.response.data.message);
+    }
   };
   return (
     <>
-      <HeaderLogin />
+      {contextHolder}
       <div className="container">
         <div className="grid grid-cols-5 gap-4 ml-20 mr-20">
           <div className="col-span-1">
             <div className="mt-4  flex flex-col justify-center items-center">
               <div>
-                <Image
-                  className="rounded-full"
-                  width={200}
-                  src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                />
+                <Image className="rounded-full" width={200} src={user?.image} />
               </div>
-              <div className="font-bold ">Dũng</div>
-              <div className="ml-2">ngocdungbkhn@gmail</div>
+              <div className="font-bold ">{user?.lastName}</div>
+              <div className="ml-2">{user?.email}</div>
             </div>
           </div>
           <div className="col-span-3">
             <div className="border-2 mt-4">
               <div className="border-b-2 flex items-center gap-2 pl-4 py-2 bg-slate-200">
                 <FaPersonBreastfeeding />
-                <span>Thêm người dùng</span>
+                <span>Thông tin cá nhân</span>
               </div>
               <div className="px-4 py-2">
-                <Form onFinish={handleSubmit}>
+                <Form form={form} onFinish={handleSubmit}>
                   <div className="flex gap-10">
                     <div className="w-1/3">
                       <label className="label" htmlFor="firstName">
@@ -183,7 +225,7 @@ const ProfilePage: React.FC = () => {
                           size="large"
                           placeholder="Ngày sinh"
                           inputReadOnly
-                          format={"DD/MM/YYYY"}
+                          format={"DD-MM-YYYY"}
                         />
                       </FormItem>
                     </div>
@@ -216,40 +258,6 @@ const ProfilePage: React.FC = () => {
                             {
                               value: COMMON.KHAC,
                               label: "Khác",
-                            },
-                          ]}
-                        />
-                      </FormItem>
-                    </div>
-                    <div className="w-1/3">
-                      <label className="label" htmlFor="password">
-                        Quyền
-                      </label>
-                      <FormItem<UserState>
-                        name="roleId"
-                        rules={[
-                          { required: true, message: "Vui lòng chọn quyền " },
-                        ]}
-                        hasFeedback
-                      >
-                        <Select
-                          className="w-full"
-                          showSearch
-                          placeholder="Chọn quyền"
-                          optionFilterProp="children"
-                          size="large"
-                          options={[
-                            {
-                              value: COMMON.USER,
-                              label: "User",
-                            },
-                            {
-                              value: COMMON.SHIPPER,
-                              label: "Shipper",
-                            },
-                            {
-                              value: COMMON.ADMIN,
-                              label: "Admin",
                             },
                           ]}
                         />
@@ -303,29 +311,37 @@ const ProfilePage: React.FC = () => {
                 </div>
                 <ul className="flex flex-col ml-8 mt-2 space-y-1">
                   <li>
-                    <a href="#" className="text-gray-600 hover:text-gray-900">
+                    <div
+                      onClick={() => {
+                        navigate(`/profile/${user?.id}`);
+                      }}
+                      className="text-gray-600 hover:text-gray-900 cursor-pointer"
+                    >
                       Thông tin cá nhân
-                    </a>
+                    </div>
                   </li>
                   <li>
-                    <a href="#" className="text-gray-600 hover:text-gray-900">
+                    <div
+                      onClick={() => {
+                        navigate(`/address/${user?.id}`);
+                      }}
+                      className="text-gray-600 hover:text-gray-900 cursor-pointer"
+                    >
                       Địa chỉ giao hàng
-                    </a>
+                    </div>
                   </li>
                 </ul>
               </li>
               <li>
                 <div className="flex items-center gap-2 text-gray-700 hover:text-blue-500 transition-colors duration-200">
                   <LuClipboardList className="text-sky-400 text-2xl" />
-                  <a href="#" className="font-medium">
-                    Đơn hàng
-                  </a>
+                  <div className="font-medium">Đơn hàng</div>
                 </div>
               </li>
               <li>
                 <div className="flex items-center gap-2 text-gray-700 hover:text-blue-500 transition-colors duration-200">
                   <BiSolidDiscount className="text-red-400 text-2xl" />
-                  <a href="#" className="font-medium">
+                  <a href="/voucher" className="font-medium">
                     Voucher
                   </a>
                 </div>
@@ -334,7 +350,6 @@ const ProfilePage: React.FC = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

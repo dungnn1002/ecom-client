@@ -17,7 +17,6 @@ const DetailProduct: React.FC = () => {
   }, [id]);
   return (
     <>
-      <HeaderLogin />
       <div className="shop_banner">
         <div className="shop_banner__content">
           <div>
@@ -57,7 +56,6 @@ const DetailProduct: React.FC = () => {
           />
         )}
       </div>
-      <Footer />
     </>
   );
 };

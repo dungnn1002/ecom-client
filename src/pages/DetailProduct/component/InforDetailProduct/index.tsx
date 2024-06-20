@@ -13,6 +13,7 @@ import { useAppDispatch } from "../../../../redux/store";
 import { addProductShopCart } from "../../../../redux/actions/shopCart.action";
 import { useSelector } from "react-redux";
 import { authSelector } from "../../../../redux/slices/authSlice";
+import { ReviewProduct } from "./component";
 type TypeSize = {
   id: number;
   productId: number;
@@ -71,7 +72,7 @@ const InforDetailProduct: React.FC<InforDetailProductProps> = (
     {
       key: "3",
       label: "Đánh giá",
-      children: "Content of Tab Pane 3",
+      children: <ReviewProduct />,
     },
   ];
   const settings = {

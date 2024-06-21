@@ -9,6 +9,7 @@ import {
   VoucherPage,
   ProfilePage,
   ManagerAddress,
+  ManagerOrder,
 } from "../pages";
 import { ManageUser, AddUser } from "../pages/Admin/components/User";
 import { ManageProduct, AddProduct } from "../pages/Admin/components/Product";
@@ -61,6 +62,7 @@ const Router: React.FC = () => {
           <Route path="/detail-product/:id" element={<DetailProduct />} />
           <Route path="/profile/:id" element={<ProfilePage />} />
           <Route path="/address/:id" element={<ManagerAddress />} />
+          <Route path="/order/:id" element={<ManagerOrder />} />
         </Route>
       </Routes>
     </BrowserRouter>

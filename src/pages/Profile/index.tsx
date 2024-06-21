@@ -333,7 +333,12 @@ const ProfilePage: React.FC = () => {
                 </ul>
               </li>
               <li>
-                <div className="flex items-center gap-2 text-gray-700 hover:text-blue-500 transition-colors duration-200">
+                <div
+                  onClick={() => {
+                    navigate(`/order/${user?.id}`);
+                  }}
+                  className="flex items-center gap-2 text-gray-700 hover:text-blue-500 transition-colors duration-200"
+                >
                   <LuClipboardList className="text-sky-400 text-2xl" />
                   <div className="font-medium">Đơn hàng</div>
                 </div>

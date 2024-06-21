@@ -59,3 +59,7 @@ export const editProfile = async (data: FormData) => {
 export const addOrder = async (data: any) => {
   return (await API.post("users/add-order", data)).data;
 };
+
+export const getAllOrderByUser = async () => {
+  return (await API.get("users/order-by-user")).data;
+};

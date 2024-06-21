@@ -9,3 +9,4 @@ export { default as Order } from "./Order";
 export { default as VoucherPage } from "./Voucher";
 export { default as ProfilePage } from "./Profile";
 export { default as ManagerAddress } from "./ManagerAddress";
+export { default as ManagerOrder } from "./ManagerOrder";

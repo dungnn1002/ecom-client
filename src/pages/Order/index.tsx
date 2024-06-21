@@ -30,8 +30,10 @@ import { useSelector } from "react-redux";
 import { authSelector } from "../../redux/slices/authSlice";
 import { deleteAllProductShopCart } from "../../redux/actions/shopCart.action";
 import { useAppDispatch } from "../../redux/store";
+import { useNavigate } from "react-router-dom";
 const Order: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector(authSelector);
   const [priceTypeShip, setPriceTypeShip] = useState<number>(0); // Giá trị typeShip được chọn
   const [priceDiscount, setPriceDiscount] = useState<number>(0); // Giá trị giảm giá
@@ -74,6 +76,9 @@ const Order: React.FC = () => {
     setListProduct([]);
     setSelectedVoucher(null);
     messageApi.success("Đặt hàng thành công");
+    setTimeout(() => {
+      navigate(`/order/${user?.id}`);
+    }, 1000);
   };
   useEffect(() => {
     getShopCart().then((res) => {

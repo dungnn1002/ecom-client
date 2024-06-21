@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addProductShopCart,
+  deleteAllProductShopCart,
   deleteProductShopCart,
 } from "../actions/shopCart.action";
 import { COMMON } from "../../constants/common";
@@ -53,6 +54,13 @@ const shopCartSlice = createSlice({
       if (state.listCartItem.length === 0) {
         localStorage.removeItem(COMMON.CART_ITEMS);
       }
+    });
+    builder.addCase(deleteAllProductShopCart.fulfilled, (state) => {
+      state.listCartItem = [];
+      localStorage.removeItem("priceTypeShip");
+      localStorage.removeItem("priceDiscount");
+      localStorage.removeItem("selectedVoucher");
+      localStorage.removeItem(COMMON.CART_ITEMS);
     });
   },
 });

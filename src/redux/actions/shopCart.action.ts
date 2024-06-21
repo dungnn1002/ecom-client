@@ -4,6 +4,7 @@ import {
   deleteShopCart,
   updateShopCart,
 } from "../../services/shopCart";
+import { addOrder } from "../../services/user";
 import { TypeParamsPostShopCart } from "../../pages/DetailProduct/component/InforDetailProduct";
 export const addProductShopCart = createAsyncThunk(
   "shopCart/addProduct",
@@ -34,6 +35,17 @@ export const updateProductShopCart = createAsyncThunk(
   async (data: { id: number; quantity: number }, { rejectWithValue }) => {
     try {
       const response = await updateShopCart(data.id, data.quantity);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+export const deleteAllProductShopCart = createAsyncThunk(
+  "shopCart/deleteAllProduct",
+  async (data: any, { rejectWithValue }) => {
+    try {
+      const response = await addOrder(data);
       return response;
     } catch (error) {
       return rejectWithValue(error);

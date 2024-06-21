@@ -55,3 +55,7 @@ export const deleteShipAddress = async (id: number) => {
 export const editProfile = async (data: FormData) => {
   return (await API.post("users/edit-profile", data)).data;
 };
+
+export const addOrder = async (data: any) => {
+  return (await API.post("users/add-order", data)).data;
+};

@@ -26,6 +26,7 @@ export type Cart = {
   name: string;
   price: number;
   quantity: number;
+  productSizeId?: number;
   image: string;
 };
 export type TypeShip = {
@@ -34,6 +35,7 @@ export type TypeShip = {
   price: number;
 };
 export type TypeVoucher = {
+  id: number;
   name: string;
   typeVoucher: string;
   maxValue: number;
@@ -150,7 +152,8 @@ const ShopCart: React.FC = () => {
     typeVoucher: string,
     maxValue: number,
     value: string,
-    name: string
+    name: string,
+    id: number
   ) => {
     const voucherValue = parseFloat(value.slice(0, -1));
     const currentTotalShopCart = totalShopCart + priceDiscount;
@@ -161,7 +164,7 @@ const ShopCart: React.FC = () => {
         maxValue
       );
     }
-    setSelectedVoucher({ name, value, maxValue, typeVoucher, amount: 1 });
+    setSelectedVoucher({ id, name, value, maxValue, typeVoucher, amount: 1 });
     setPriceDiscount(newPriceDiscount);
     setIsModalOpen(false);
   };
@@ -249,8 +252,9 @@ const ShopCart: React.FC = () => {
             ]}
           >
             {listVoucher.map((voucher) => (
-              <div className="mb-4">
+              <div key={voucher.id} className="mb-4">
                 <Voucher
+                  id={voucher.id}
                   name={voucher.name}
                   typeVoucher={voucher.typeVoucher}
                   maxValue={voucher.maxValue}

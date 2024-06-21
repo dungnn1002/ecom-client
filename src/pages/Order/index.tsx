@@ -8,6 +8,7 @@ import {
   getShipAddress,
   addShipAddress,
   deleteShipAddress,
+  addOrder,
 } from "../../services/user";
 import { getAllTypeShip } from "../../services/typeship";
 import { Cart } from "../ShopCart/index";
@@ -27,7 +28,10 @@ import { TypeShip, TypeVoucher } from "../ShopCart/index";
 import { getAllCodeVoucher } from "../../services/voucher";
 import { useSelector } from "react-redux";
 import { authSelector } from "../../redux/slices/authSlice";
+import { deleteAllProductShopCart } from "../../redux/actions/shopCart.action";
+import { useAppDispatch } from "../../redux/store";
 const Order: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { user } = useSelector(authSelector);
   const [priceTypeShip, setPriceTypeShip] = useState<number>(0); // Giá trị typeShip được chọn
   const [priceDiscount, setPriceDiscount] = useState<number>(0); // Giá trị giảm giá
@@ -52,6 +56,25 @@ const Order: React.FC = () => {
     useState<boolean>(false);
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
+  const handleOrder = () => {
+    const paramPostOrder = {
+      addressUserId: listShipAddress[selectedAddress].id,
+      isPaymentOnline: selectedPayment === "online" ? 1 : 0,
+      typeShipId: listTypeShip.find((item) => item.price === priceTypeShip)?.id,
+      voucherId: selectedVoucher?.id,
+      totalPrice: totalShopCart,
+      shopCart: listProduct.map((item) => {
+        return {
+          productSizeId: item.productSizeId,
+          quantity: item.quantity,
+        };
+      }),
+    };
+    dispatch(deleteAllProductShopCart(paramPostOrder));
+    setListProduct([]);
+    setSelectedVoucher(null);
+    messageApi.success("Đặt hàng thành công");
+  };
   useEffect(() => {
     getShopCart().then((res) => {
       const listProduct = res.map((item: any) => {
@@ -61,6 +84,7 @@ const Order: React.FC = () => {
           price: item.productSize.product.discountPrice,
           quantity: item.quantity,
           image: item.productSize.productImage,
+          productSizeId: item.productSizeId,
         };
       });
       setListProduct(listProduct);
@@ -114,6 +138,7 @@ const Order: React.FC = () => {
       }
     });
   }, []);
+
   useEffect(() => {
     const subtotal = listProduct.reduce(
       (total, product) => total + product.price * product.quantity,
@@ -149,7 +174,8 @@ const Order: React.FC = () => {
     typeVoucher: string,
     maxValue: number,
     value: string,
-    name: string
+    name: string,
+    id: number
   ) => {
     const voucherValue = parseFloat(value.slice(0, -1));
     const currentTotalShopCart = totalShopCart + priceDiscount;
@@ -160,7 +186,7 @@ const Order: React.FC = () => {
         maxValue
       );
     }
-    setSelectedVoucher({ name, value, maxValue, typeVoucher, amount: 1 });
+    setSelectedVoucher({ id, name, value, maxValue, typeVoucher, amount: 1 });
     setPriceDiscount(newPriceDiscount);
     setIsModalOpen(false);
   };
@@ -414,6 +440,7 @@ const Order: React.FC = () => {
                   {listVoucher.map((voucher) => (
                     <div className="mb-4">
                       <Voucher
+                        id={voucher.id}
                         name={voucher.name}
                         typeVoucher={voucher.typeVoucher}
                         maxValue={voucher.maxValue}
@@ -512,7 +539,7 @@ const Order: React.FC = () => {
                 </span>
               </div>
               <div className="button-payment">
-                <ButtonShop>Đặt hàng</ButtonShop>
+                <ButtonShop onClick={handleOrder}>Đặt hàng</ButtonShop>
               </div>
             </div>
           </div>

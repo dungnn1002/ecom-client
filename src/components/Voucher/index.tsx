@@ -7,8 +7,10 @@ type VoucherProps = {
     typeVoucher: string,
     maxValue: number,
     value: string,
-    name: string
+    name: string,
+    id: number
   ): void;
+  id: number;
   name: string;
   typeVoucher: string;
   value: string;
@@ -22,7 +24,8 @@ const Voucher: React.FC<VoucherProps> = (props: VoucherProps) => {
       props.typeVoucher,
       props.maxValue,
       props.value,
-      props.name
+      props.name,
+      props.id
     );
   };
   return (

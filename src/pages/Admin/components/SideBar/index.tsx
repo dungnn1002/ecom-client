@@ -136,10 +136,10 @@ const SideBar: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
       ],
     },
     {
-      key: "bill",
+      key: "order",
       label: "Quản lý đơn hàng",
       icon: <RiBillLine />,
-      children: [{ key: "list-bill", label: "Danh sách đơn hàng" }],
+      children: [{ key: "list-order", label: "Danh sách đơn hàng" }],
     },
   ];
   return (

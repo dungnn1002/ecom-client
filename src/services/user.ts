@@ -3,6 +3,7 @@ import {
   UserQueryParamType,
   defaultQueryParam,
   ParamPostShipAddress,
+  QueryParamType,
 } from "../constants/type";
 import { User } from "../redux/slices/authSlice";
 import { UserState } from "../pages/Admin/components/User/AddUser";
@@ -62,4 +63,15 @@ export const addOrder = async (data: any) => {
 
 export const getAllOrderByUser = async () => {
   return (await API.get("users/order-by-user")).data;
+};
+
+export const getAllOrder = async ({
+  page,
+  limit,
+}: QueryParamType = defaultQueryParam) => {
+  return (await API.get("order/all", { params: { page, limit } })).data;
+};
+
+export const getOrderById = async (id: number) => {
+  return (await API.get(`order/${id}`)).data;
 };

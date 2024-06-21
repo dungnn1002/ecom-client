@@ -5,14 +5,9 @@ import { CiBoxList } from "react-icons/ci";
 import { TbBrandAlgolia } from "react-icons/tb";
 import { IoShirtOutline } from "react-icons/io5";
 import { PiFlagBanner } from "react-icons/pi";
-import { MdTitle } from "react-icons/md";
-import { BsPostcard } from "react-icons/bs";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { CiDiscount1 } from "react-icons/ci";
-import { FaPersonMilitaryPointing } from "react-icons/fa6";
-import { MdProductionQuantityLimits } from "react-icons/md";
 import { RiBillLine } from "react-icons/ri";
-import { MdMessage } from "react-icons/md";
 import { FaChartBar } from "react-icons/fa";
 import type { MenuProps } from "antd";
 import { Menu } from "antd";
@@ -29,10 +24,7 @@ const SideBar: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
       key: "statistical",
       label: "Thống kê",
       icon: <FaChartBar />,
-      children: [
-        { key: "turnover", label: "Thống kê doanh thu" },
-        { key: "profit", label: "Thống kê lợi nhuận" },
-      ],
+      children: [{ key: "statistical", label: "Thống kê đơn hàng" }],
     },
     {
       key: "user",
@@ -80,24 +72,6 @@ const SideBar: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
       ],
     },
     {
-      key: "title",
-      label: "Quản lý chủ đề",
-      icon: <MdTitle />,
-      children: [
-        { key: "list-title", label: "Danh sách chủ đề" },
-        { key: "add-title", label: "Thêm chủ đề" },
-      ],
-    },
-    {
-      key: "post",
-      label: "Quản lý bài đăng",
-      icon: <BsPostcard />,
-      children: [
-        { key: "list-post", label: "Danh sách bài đăng" },
-        { key: "add-post", label: "Thêm bài đăng" },
-      ],
-    },
-    {
       key: "ship",
       label: "Quản lý loại ship",
       icon: <LiaShippingFastSolid />,
@@ -115,24 +89,6 @@ const SideBar: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
         { key: "list-code-voucher", label: "Danh sách mã khuyến mãi" },
         { key: "add-type-voucher", label: "Thêm loại khuyến mãi" },
         { key: "add-code-voucher", label: "Thêm mã khuyến mãi" },
-      ],
-    },
-    {
-      key: "ncc",
-      label: "Quản lý NCC",
-      icon: <FaPersonMilitaryPointing />,
-      children: [
-        { key: "list-ncc", label: "Danh sách NCC" },
-        { key: "add-ncc", label: "Thêm nhà cung cấp" },
-      ],
-    },
-    {
-      key: "nhaphang",
-      label: "Quản lý nhập hàng",
-      icon: <MdProductionQuantityLimits />,
-      children: [
-        { key: "list-receipt", label: "Danh sách nhập hàng" },
-        { key: "add-receipt", label: "Thêm nhập hàng" },
       ],
     },
     {

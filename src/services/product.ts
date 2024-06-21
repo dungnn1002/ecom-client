@@ -52,3 +52,16 @@ export const addComment = async (
 ): Promise<AxiosResponse<any>> => {
   return await API.post("comment/add", data);
 };
+
+export const getAllComment = async ({
+  page,
+  limit,
+}: QueryParamType = defaultQueryParam): Promise<AxiosResponse<any>> => {
+  const data = await API.get("comment/all", {
+    params: {
+      page,
+      limit,
+    },
+  });
+  return data.data;
+};

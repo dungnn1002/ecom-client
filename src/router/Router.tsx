@@ -25,6 +25,7 @@ import {
 } from "../pages/Admin/components/Voucher";
 import ListOrder from "../pages/Admin/components/Order";
 import DetailOrder from "../pages/Admin/components/DetailOrder";
+import Statistical from "../pages/Admin/components/Statistical";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { COMMON } from "../constants";
 import ProtectedRouter from "./ProtectedRouter";
@@ -59,6 +60,7 @@ const Router: React.FC = () => {
           <Route path="list-code-voucher" element={<ListCodeVoucher />} />
           <Route path="list-order" element={<ListOrder />} />
           <Route path="detail-order/:id" element={<DetailOrder />} />
+          <Route path="statistical" element={<Statistical />} />
         </Route>
         <Route element={<ProtectedRouter />}>
           <Route path="/shop-cart" element={<ShopCart />} />

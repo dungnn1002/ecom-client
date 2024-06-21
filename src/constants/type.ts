@@ -6,7 +6,6 @@ export interface QueryParamType {
 export interface UserQueryParamType extends QueryParamType {
   phoneNumber?: string; // thêm phoneNumber như một tùy chọn
 }
-
 export interface CategoryQueryParamType extends QueryParamType {
   brandId?: number;
   name?: string;

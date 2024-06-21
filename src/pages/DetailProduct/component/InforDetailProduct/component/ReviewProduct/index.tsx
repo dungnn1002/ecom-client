@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./index.scss";
 import { FaStar } from "react-icons/fa";
-import { Input, Upload, Image, GetProp, UploadProps, Avatar, List } from "antd";
+import {
+  Input,
+  Upload,
+  Image,
+  GetProp,
+  UploadProps,
+  Avatar,
+  List,
+  message,
+} from "antd";
 import { FaCamera } from "react-icons/fa6";
 import { RcFile, UploadFile } from "antd/es/upload";
 import { ButtonShop } from "../../../../../../components";
+import {
+  getAllCommentByProduct,
+  addComment,
+} from "../../../../../../services/product";
 type FileType = Parameters<GetProp<UploadProps, "beforeUpload">>[0];
 const getBase64 = (file: FileType): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -15,7 +28,51 @@ const getBase64 = (file: FileType): Promise<string> =>
   });
 const { TextArea } = Input;
 
-const ReviewProduct: React.FC = () => {
+type Props = {
+  productId: number;
+  userId: number;
+};
+const ReviewProduct: React.FC<Props> = (props: Props) => {
+  const [messageApi, contextHolder] = message.useMessage();
+  const [listComment, setListComment] = useState<any>([]);
+  const [content, setContent] = useState<string>("");
+  const [star, setStar] = useState<number>(0);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await getAllCommentByProduct(props.productId);
+        setListComment(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+  }, []);
+  const handleAddComment = () => {
+    const formData = new FormData();
+    fileList.forEach((file) => {
+      formData.append("images", file.originFileObj as Blob);
+    });
+    formData.append("content", content);
+    formData.append("star", star.toString());
+    formData.append("userId", props.userId.toString());
+    formData.append("productId", props.productId.toString());
+    addComment(formData)
+      .then(async () => {
+        const data = await getAllCommentByProduct(props.productId);
+        setListComment(data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setContent("");
+    setStar(0);
+    setFileList([]);
+    messageApi.open({
+      type: "success",
+      content: "Đánh giá thành công!",
+    });
+  };
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
@@ -28,7 +85,7 @@ const ReviewProduct: React.FC = () => {
   // Function to handle star selection
   const handleChooseStart = (number: number) => {
     setSelectedStars(number); // Update the state with the selected number of stars
-    console.log(number);
+    setStar(number);
   };
   const handlePreview = async (file: UploadFile) => {
     if (!file.url && !file.preview) {
@@ -45,74 +102,97 @@ const ReviewProduct: React.FC = () => {
       <FaCamera />
     </button>
   );
-  const data = [
-    {
-      title: "Ant Design Title 1",
-    },
-    {
-      title: "Ant Design Title 2",
-    },
-    {
-      title: "Ant Design Title 3",
-    },
-    {
-      title: "Ant Design Title 4",
-    },
-  ];
   return (
     <div className="container ml-8 mr-8">
+      {contextHolder}
       <div className="wrap">
         <div className="grid grid-cols-2 gap-8">
           <div className="bg-[#f6f6f6] rounded-lg p-6 flex flex-col items-center justify-center text-center">
             <h5 className="text-gray-600 text-2xl font-medium mb-2">
               Sao trung bình
             </h5>
-            <h4 className="text-4xl font-bold text-yellow-500 mb-1">3.7</h4>
-            <h6 className="text-gray-500 text-sm">(3 lượt đánh giá)</h6>
+            <h4 className="text-4xl font-bold text-yellow-500 mb-1">
+              {listComment.length > 0
+                ? (
+                    listComment.reduce(
+                      (acc: number, item: any) => acc + item.star,
+                      0
+                    ) / listComment.length
+                  ).toFixed(1)
+                : 0}
+            </h4>
+            <h6 className="text-gray-500 text-sm">
+              ({listComment.length} lượt đánh giá)
+            </h6>
           </div>
           <div className="rating_list">
             <h3 className="text-lg font-semibold mb-2 text-gray-600">
-              10 lượt đánh giá
+              {listComment.length} lượt đánh giá
             </h3>
             <ul className="list space-y-2">
               <li className="flex items-center text-lg font-normal text-gray-700 gap-1">
-                <span className="text-gray-800">5</span>
                 <FaStar className="text-yellow-400" />
                 <FaStar className="text-yellow-400" />
                 <FaStar className="text-yellow-400" />
                 <FaStar className="text-yellow-400" />
                 <FaStar className="text-yellow-400" />
-                <div className="ml-2 text-gray-600">có lượt đánh giá</div>
+                <div className="ml-2 text-gray-600">
+                  có
+                  <span className="px-1">
+                    {listComment.filter((item: any) => item.star === 5).length}
+                  </span>
+                  lượt đánh giá
+                </div>
               </li>
 
               <li className="flex items-center text-lg font-medium text-gray-700 gap-1">
-                <span className="text-gray-800">4</span>
                 <FaStar className="text-yellow-400" />
                 <FaStar className="text-yellow-400" />
                 <FaStar className="text-yellow-400" />
                 <FaStar className="text-yellow-400" />
-                <div className="ml-2 text-gray-600">có lượt đánh giá</div>
+                <div className="ml-2 text-gray-600">
+                  có
+                  <span className="px-1">
+                    {listComment.filter((item: any) => item.star === 4).length}
+                  </span>
+                  lượt đánh giá
+                </div>
               </li>
 
               <li className="flex items-center text-lg font-medium text-gray-700 gap-1">
-                <span className="text-gray-800">3</span>
                 <FaStar className="text-yellow-400" />
                 <FaStar className="text-yellow-400" />
                 <FaStar className="text-yellow-400" />
-                <div className="ml-2 text-gray-600">có lượt đánh giá</div>
+                <div className="ml-2 text-gray-600">
+                  có
+                  <span className="px-1">
+                    {listComment.filter((item: any) => item.star === 3).length}
+                  </span>
+                  lượt đánh giá
+                </div>
               </li>
 
               <li className="flex items-center text-lg font-medium text-gray-700 gap-1">
-                <span className="text-gray-800">2</span>
                 <FaStar className="text-yellow-400" />
                 <FaStar className="text-yellow-400" />
-                <div className="ml-2 text-gray-600">có lượt đánh giá</div>
+                <div className="ml-2 text-gray-600">
+                  có
+                  <span className="px-1">
+                    {listComment.filter((item: any) => item.star === 2).length}
+                  </span>
+                  lượt đánh giá
+                </div>
               </li>
 
               <li className="flex items-center text-lg font-medium text-gray-700 gap-1">
-                <span className="text-gray-800">1</span>
                 <FaStar className="text-yellow-400" />
-                <div className="ml-2 text-gray-600">có lượt đánh giá</div>
+                <div className="ml-2 text-gray-600">
+                  có
+                  <span className="px-1">
+                    {listComment.filter((item: any) => item.star === 1).length}
+                  </span>
+                  lượt đánh giá
+                </div>
               </li>
             </ul>
           </div>
@@ -126,6 +206,8 @@ const ReviewProduct: React.FC = () => {
                 Viết đánh giá của bạn
               </label>
               <TextArea
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
                 className="mt-2"
                 placeholder="Đánh giá của bạn"
                 autoSize={{ minRows: 3, maxRows: 6 }}
@@ -181,27 +263,25 @@ const ReviewProduct: React.FC = () => {
                   </div>
                 </div>
                 <div className="">
-                  <ButtonShop>Đánh giá</ButtonShop>
+                  <ButtonShop onClick={handleAddComment}>Đánh giá</ButtonShop>
                 </div>
               </div>
             </div>
             <div>
               <List
                 itemLayout="horizontal"
-                dataSource={data}
-                renderItem={(item, index) => (
+                dataSource={listComment}
+                renderItem={(item: any, index) => (
                   <List.Item>
                     <List.Item.Meta
-                      avatar={
-                        <Avatar
-                          src={`https://api.dicebear.com/7.x/miniavs/svg?seed=${index}`}
-                        />
-                      }
+                      avatar={<Avatar src={item.user.image} />}
                       title={
                         <div className="flex flex-col">
-                          <a href="https://ant.design">{item.title}</a>
+                          <span>
+                            {item.user.firstName + " " + item.user.lastName}
+                          </span>
                           <div className="flex">
-                            {[...Array(5)].map((_, index) => (
+                            {[...Array(item.star)].map((_, index) => (
                               <FaStar
                                 key={index}
                                 className="text-yellow-400 text-lg"
@@ -211,11 +291,27 @@ const ReviewProduct: React.FC = () => {
                         </div>
                       }
                       description={
-                        <div>
-                          <p>
-                            Ant Design, a design language for background
-                            applications, is refined by Ant UED Team
-                          </p>
+                        <div className="flex-col">
+                          <div className="text-gray-500">
+                            {new Date(item.createdAt).toLocaleDateString()}
+                          </div>
+                          <p>{item.content}</p>
+                          <div className="flex gap-4">
+                            {item.CommentImage.map(
+                              (image: any, index: number) => (
+                                <div
+                                  className="w-[72px] h-[72px] overflow-hidden rounded-lg flex items-center justify-center bg-gray-100"
+                                  key={index}
+                                >
+                                  <Image
+                                    className="object-cover w-full h-full"
+                                    src={image.image_url}
+                                    alt={`Review image ${index}`}
+                                  />
+                                </div>
+                              )
+                            )}
+                          </div>
                         </div>
                       }
                     />

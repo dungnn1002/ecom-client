@@ -47,6 +47,7 @@ const DetailProduct: React.FC = () => {
       <div className="inforDetailProduct">
         {product && (
           <InforDetailProduct
+            productId={product.id}
             productName={product.name}
             price={product.discountPrice}
             categoryName={product.category.name}

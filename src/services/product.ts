@@ -33,3 +33,22 @@ export const editProduct = async (id: number, data: FormData) => {
 export const deleteProduct = async (id: number) => {
   return (await API.delete(`product/delete-product/${id}`)).data.data;
 };
+
+export const getAllCommentByProduct = async (
+  id: number,
+  { page, limit }: QueryParamType = defaultQueryParam
+): Promise<AxiosResponse<any>> => {
+  const data = await API.get(`comment/product/${id}`, {
+    params: {
+      page,
+      limit,
+    },
+  });
+  return data.data;
+};
+
+export const addComment = async (
+  data: FormData
+): Promise<AxiosResponse<any>> => {
+  return await API.post("comment/add", data);
+};

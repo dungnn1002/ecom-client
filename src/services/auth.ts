@@ -1,4 +1,3 @@
-import axios from "axios";
 import { AxiosResponse } from "axios";
 import { LoginState } from "../pages/Authenticate/Login";
 import { RegisterState } from "../pages/Authenticate/Register";

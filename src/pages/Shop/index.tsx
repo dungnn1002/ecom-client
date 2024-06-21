@@ -11,8 +11,6 @@ const Shop: React.FC = () => {
     const fetchProduct = async () => {
       try {
         const res = await getAllProduct();
-        console.log(res.data);
-
         setListProduct(res.data);
       } catch (error) {
         console.log(error);

@@ -28,6 +28,7 @@ export type TypeParamsPostShopCart = {
 };
 
 interface InforDetailProductProps {
+  productId: number;
   productName: string;
   price: number;
   categoryName: string;
@@ -72,7 +73,7 @@ const InforDetailProduct: React.FC<InforDetailProductProps> = (
     {
       key: "3",
       label: "Đánh giá",
-      children: <ReviewProduct />,
+      children: <ReviewProduct userId={user!.id} productId={props.productId} />,
     },
   ];
   const settings = {

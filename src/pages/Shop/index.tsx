@@ -4,13 +4,28 @@ import "./index.scss";
 import { NavLink } from "react-router-dom";
 import { Category, Brand } from "./component";
 import { Select, Input } from "antd";
-import { getAllProduct } from "../../services/product";
+import { getAllProduct, getAllProductByFilter } from "../../services/product";
 const Shop: React.FC = () => {
   const [listProduct, setListProduct] = useState([]);
+  const [valueSort, setValueSort] = useState<string>("discountPrice");
+  const [valueOrder, setValueOrder] = useState<string>("asc");
+  const [valueSearch, setValueSearch] = useState<string>("");
+  const [valueBrand, setValueBrand] = useState<number>(0);
+  const [valueCategory, setValueCategory] = useState<number>(0);
+  const [activeBrand, setActiveBrand] = useState<number>(0);
+  const [activeCategory, setActiveCategory] = useState<number>(0);
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const res = await getAllProduct();
+        const res = await getAllProductByFilter({
+          page: 1,
+          limit: 2000,
+          brandId: valueBrand,
+          categoryId: valueCategory,
+          name: valueSearch,
+          sort: valueSort as "discountPrice" | "name",
+          order: valueOrder as "asc" | "desc",
+        });
         setListProduct(res.data);
       } catch (error) {
         console.log(error);
@@ -19,10 +34,40 @@ const Shop: React.FC = () => {
     fetchProduct();
   }, []);
 
-  const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+  const handleChangeSort = (value: string) => {
+    setValueSort(value);
+  };
+  const handleChangeOrder = (value: string) => {
+    setValueOrder(value);
+  };
+  const handleChooseBrand = async (value: number) => {
+    setActiveBrand(value);
+    setValueBrand(value);
+  };
+  const handleChooseCategory = async (value: number) => {
+    setActiveCategory(value);
+    setValueCategory(value);
   };
   const { Search } = Input;
+  const handleSearch = () => {
+    const fetchProduct = async () => {
+      try {
+        const res = await getAllProductByFilter({
+          page: 1,
+          limit: 2000,
+          brandId: valueBrand,
+          categoryId: valueCategory,
+          name: valueSearch,
+          sort: valueSort as "discountPrice" | "name",
+          order: valueOrder as "asc" | "desc",
+        });
+        setListProduct(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchProduct();
+  };
   return (
     <div>
       <HeaderLogin />
@@ -57,21 +102,40 @@ const Shop: React.FC = () => {
       </div>
       <div className="category ml-28 mr-28 my-20 flex gap-10">
         <div className="content-left">
-          <Brand />
-          <Category />
+          <Brand valueActive={activeBrand} onSelectBrand={handleChooseBrand} />
+          <Category
+            valueActive={activeCategory}
+            onSelectCategory={handleChooseCategory}
+          />
         </div>
         <div className="content-right">
           <div className="product-fillter flex gap-4 mb-8">
             <Select
-              defaultValue="0"
+              value={valueSort}
               style={{ width: 200 }}
-              onChange={handleChange}
+              onChange={handleChangeSort}
               options={[
-                { value: "0", label: "Theo giá tiền" },
-                { value: "1", label: "Theo tên" },
+                { value: "discountPrice", label: "Theo giá tiền" },
+                { value: "name", label: "Theo tên" },
               ]}
             />
-            <Search placeholder="Tìm kiếm theo tên" style={{ width: 320 }} />
+            <Select
+              value={valueOrder}
+              style={{ width: 200 }}
+              onChange={handleChangeOrder}
+              options={[
+                { value: "asc", label: "ASC" },
+                { value: "desc", label: "DESC" },
+              ]}
+            />
+            <Search
+              placeholder="Tìm kiếm theo tên"
+              style={{ width: 320 }}
+              onClick={() => handleSearch()}
+              onChange={(e) => setValueSearch(e.target.value)}
+              onSearch={handleSearch}
+              value={valueSearch}
+            />
           </div>
           <div className="product-list grid grid-cols-3 gap-20">
             {listProduct.map((product: any) => (

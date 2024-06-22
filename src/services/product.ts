@@ -46,6 +46,34 @@ export const getAllCommentByProduct = async (
   });
   return data.data;
 };
+export const getAllProductByFilter = async ({
+  page,
+  limit,
+  brandId,
+  categoryId,
+  name,
+  sort,
+  order,
+}: QueryParamType & {
+  brandId: number;
+  categoryId: number;
+  name: string;
+  sort: "discountPrice" | "name";
+  order: "asc" | "desc";
+}): Promise<AxiosResponse<any>> => {
+  const data = await API.get("product/all-product-filter", {
+    params: {
+      page,
+      limit,
+      brandId,
+      categoryId,
+      name,
+      sort,
+      order,
+    },
+  });
+  return data.data;
+};
 
 export const addComment = async (
   data: FormData

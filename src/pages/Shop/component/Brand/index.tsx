@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import "./index.scss";
 import { fetchAndProcessBrands } from "../../../../constants/brand";
 import { ListType } from "../../../../constants";
-const Brand: React.FC = () => {
+// props valueActive
+const Brand: React.FC<{
+  onSelectBrand: (value: number) => void;
+  valueActive: number;
+}> = ({ onSelectBrand, valueActive }) => {
   const [brands, setBrands] = useState<ListType[]>([]);
   useEffect(() => {
     const fetchCategory = async () => {
       const brands = await fetchAndProcessBrands();
+      brands.unshift({ label: "Tất cả", value: 0 });
       setBrands(brands);
     };
     fetchCategory();
@@ -19,7 +24,13 @@ const Brand: React.FC = () => {
         </div>
         <ul className="list-category">
           {brands.map((item, index) => (
-            <li key={index} className="mr-2">
+            <li
+              onClick={() => onSelectBrand(item.value)}
+              key={index}
+              className={`brand-item ${
+                valueActive === item.value ? "active" : ""
+              }`}
+            >
               <a className="btn-category">{item.label}</a>
             </li>
           ))}

@@ -194,7 +194,6 @@ const ShopCart: React.FC = () => {
               <div className="product-quantity">
                 <InputNumber
                   min={1}
-                  max={10}
                   value={product.quantity}
                   onChange={(value) =>
                     onChangeQuantityShopCart(value as number, product.id)

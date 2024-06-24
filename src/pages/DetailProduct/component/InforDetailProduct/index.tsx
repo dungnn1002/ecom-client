@@ -173,7 +173,6 @@ const InforDetailProduct: React.FC<InforDetailProductProps> = (
                 <label className="label text-[#333] text-base">Số lượng</label>
                 <InputNumber
                   min={1}
-                  max={10}
                   defaultValue={1}
                   onChange={onChangeQuantity}
                 />

@@ -4,7 +4,7 @@ import "./index.scss";
 import { NavLink } from "react-router-dom";
 import { Category, Brand } from "./component";
 import { Select, Input } from "antd";
-import { getAllProduct, getAllProductByFilter } from "../../services/product";
+import { getAllProductByFilter } from "../../services/product";
 const Shop: React.FC = () => {
   const [listProduct, setListProduct] = useState([]);
   const [valueSort, setValueSort] = useState<string>("discountPrice");
@@ -14,6 +14,19 @@ const Shop: React.FC = () => {
   const [valueCategory, setValueCategory] = useState<number>(0);
   const [activeBrand, setActiveBrand] = useState<number>(0);
   const [activeCategory, setActiveCategory] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [productsPerPage] = useState<number>(6);
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = listProduct.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const totalPages = Math.ceil(listProduct.length / productsPerPage);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -138,10 +151,9 @@ const Shop: React.FC = () => {
             />
           </div>
           <div className="product-list grid grid-cols-3 gap-20">
-            {listProduct.map((product: any) => (
-              <div>
+            {currentProducts.map((product: any) => (
+              <div key={product.id}>
                 <ItemProduct
-                  key={product.id}
                   id={product.id}
                   width="100%"
                   height="300px"
@@ -151,6 +163,21 @@ const Shop: React.FC = () => {
                   price={product.originalPrice}
                 />
               </div>
+            ))}
+          </div>
+          <div className="pagination flex justify-center mt-10">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button
+                key={i + 1}
+                className={`px-4 py-2 mx-1 ${
+                  i + 1 === currentPage
+                    ? "bg-gray-500 text-white"
+                    : "bg-gray-200"
+                }`}
+                onClick={() => handlePageChange(i + 1)}
+              >
+                {i + 1}
+              </button>
             ))}
           </div>
         </div>

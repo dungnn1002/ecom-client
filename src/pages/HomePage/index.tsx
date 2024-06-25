@@ -16,13 +16,31 @@ const HomePage: React.FC = () => {
     autoplay: true,
     cssEase: "linear",
   };
+  const listBanner = [
+    {
+      id: 1,
+      image: "https://mcdn.coolmate.me/image/May2022/mceclip23.jpg",
+    },
+    {
+      id: 2,
+      image:
+        "https://content.pancake.vn/1/s900x900/fwebp/8a/aa/c2/0d/551c3916e477a1b10c814848a9722627f9404b0ea9d13cf9253cc9d4.png",
+    },
+    {
+      id: 3,
+      image:
+        "https://owen.cdn.vccloud.vn/media/codazon/slideshow/1/3/1366_x_532_56_1__1.jpg",
+    },
+  ];
+
   return (
     <>
       <HeaderLogin />
       <div>
         <Slider {...settings}>
-          <HomeBanner></HomeBanner>
-          <HomeBanner></HomeBanner>
+          {listBanner.map((banner) => (
+            <HomeBanner key={banner.id} image={banner.image}></HomeBanner>
+          ))}
         </Slider>
         <div className="ml-28 mr-28">
           <HomeFeature></HomeFeature>

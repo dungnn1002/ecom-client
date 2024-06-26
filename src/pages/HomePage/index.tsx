@@ -47,10 +47,12 @@ const HomePage: React.FC = () => {
           <ProductFeatured
             title={"Sản phẩm nổi bật"}
             description="Sản phẩm sẽ không làm bạn thất vọng"
+            order="desc"
           ></ProductFeatured>
           <ProductFeatured
             title={"Sản phẩm mới"}
             description="Trải nghiệm và phá cách cùng dòng sản phẩm mới"
+            order="asc"
           ></ProductFeatured>
         </div>
       </div>

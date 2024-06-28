@@ -16,7 +16,6 @@ import { ManageUser, AddUser } from "../pages/Admin/components/User";
 import { ManageProduct, AddProduct } from "../pages/Admin/components/Product";
 import { ListBrand, AddBrand } from "../pages/Admin/components/Brand";
 import { ListCategory, AddCategory } from "../pages/Admin/components/Category";
-import { AddBanner, ListBanner } from "../pages/Admin/components/Banner";
 import { AddTypeShip, ListTypeShip } from "../pages/Admin/components/TypeShip";
 import {
   AddTypeVoucher,
@@ -51,8 +50,6 @@ const Router: React.FC = () => {
           <Route path="add-brand" element={<AddBrand />} />
           <Route path="list-category" element={<ListCategory />} />
           <Route path="add-category" element={<AddCategory />} />
-          <Route path="list-banner" element={<ListBanner />} />
-          <Route path="add-banner" element={<AddBanner />} />
           <Route path="list-typeship" element={<ListTypeShip />} />
           <Route path="add-typeship" element={<AddTypeShip />} />
           <Route path="add-type-voucher" element={<AddTypeVoucher />} />

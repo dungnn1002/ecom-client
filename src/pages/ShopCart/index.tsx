@@ -184,7 +184,7 @@ const ShopCart: React.FC = () => {
       </div>
       <div className="mt-8">
         {listProduct.map((product) => (
-          <div className="pb-8 list-product mt-8 px-2">
+          <div key={product.id} className="pb-8 list-product mt-8 px-2">
             <div className="body-table">
               <div className="product-item">
                 <div className="product-img">

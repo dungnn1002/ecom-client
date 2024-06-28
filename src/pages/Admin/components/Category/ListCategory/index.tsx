@@ -102,6 +102,7 @@ const ListCategory: React.FC = () => {
     const res = await getAllCategory({ ...defaultQueryParam });
     const data: CategoryType[] = res.data.map(
       (category: any, index: number) => ({
+        key: category.id,
         categoryName: category.name,
         brandName: category.brand.name,
         id: +category.id,
@@ -113,6 +114,7 @@ const ListCategory: React.FC = () => {
     const res = await getAllCategory({ ...defaultQueryParam, name: value });
     const data: CategoryType[] = res.data.map(
       (category: any, index: number) => ({
+        key: category.id,
         categoryName: category.name,
         brandName: category.brand.name,
         id: +category.id,
@@ -131,6 +133,7 @@ const ListCategory: React.FC = () => {
     setOpen(false);
   };
   const data: CategoryType[] = dataCategory.map((category, index) => ({
+    key: category.id,
     stt: index + 1,
     brandName: category.brandName,
     categoryName: category.categoryName,

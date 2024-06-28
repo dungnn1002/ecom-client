@@ -18,7 +18,7 @@ const HeaderAdmin: React.FC<{ onMenuToggle: () => void }> = ({
     navigate("/login");
   };
   const handlebackHome = () => {
-    navigate("/home");
+    navigate("#");
   };
   return (
     <div className="header-container">

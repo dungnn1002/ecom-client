@@ -58,6 +58,7 @@ const ListBrand: React.FC = () => {
     setDataBrand(data.data);
   };
   const data: BrandType[] = dataBrand.map((brand, index) => ({
+    key: brand.id,
     stt: index + 1,
     name: brand.name,
     id: brand.id,

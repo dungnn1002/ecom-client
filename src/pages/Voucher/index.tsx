@@ -38,7 +38,7 @@ const VoucherPage: React.FC = () => {
         </div>
         <div className="voucher-list">
           {listVoucher.map((voucher) => (
-            <div className="mb-4">
+            <div key={voucher.id} className="mb-4">
               <BigVoucher
                 name={voucher.name}
                 typeVoucher={voucher.typeVoucher}

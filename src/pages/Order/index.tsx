@@ -8,7 +8,6 @@ import {
   getShipAddress,
   addShipAddress,
   deleteShipAddress,
-  addOrder,
 } from "../../services/user";
 import { getAllTypeShip } from "../../services/typeship";
 import { Cart } from "../ShopCart/index";

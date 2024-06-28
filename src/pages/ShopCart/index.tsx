@@ -163,6 +163,8 @@ const ShopCart: React.FC = () => {
         (currentTotalShopCart * voucherValue) / 100,
         maxValue
       );
+    } else {
+      newPriceDiscount = voucherValue;
     }
     setSelectedVoucher({ id, name, value, maxValue, typeVoucher, amount: 1 });
     setPriceDiscount(newPriceDiscount);

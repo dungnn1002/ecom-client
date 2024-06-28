@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CiDiscount1 } from "react-icons/ci";
 import { DatePicker, Form, Input, InputNumber, Select } from "antd";
 import { AdminButton } from "../../../../../components";
-import { addTypeVoucher } from "../../../../../services/voucher";
+import { addCodeVoucher } from "../../../../../services/voucher";
 import { TypeVoucher } from "../ListTypeVoucher";
 import { message } from "antd";
 import FormItem from "antd/es/form/FormItem";
@@ -19,11 +19,9 @@ const AddCodeVoucher: React.FC = () => {
   }, []);
   const [messageApi, contextHolder] = message.useMessage();
   const handleSubmit = async (value: TypeVoucher) => {
-    value.value = Number(value.value);
-    value.minValue = Number(value.minValue);
-    value.maxValue = Number(value.maxValue);
+    console.log(value);
     try {
-      const res = await addTypeVoucher(value);
+      const res = await addCodeVoucher(value);
       const message = res.data.message.message;
       messageApi.open({
         type: "success",
@@ -52,7 +50,7 @@ const AddCodeVoucher: React.FC = () => {
                     Ngày bắt đầu
                   </label>
                   <FormItem
-                    name="dayStart"
+                    name="fromDate"
                     rules={[
                       {
                         required: true,
@@ -75,7 +73,7 @@ const AddCodeVoucher: React.FC = () => {
                     Ngày kết thúc
                   </label>
                   <FormItem
-                    name="dayEnd"
+                    name="toDate"
                     rules={[
                       {
                         required: true,
@@ -96,11 +94,11 @@ const AddCodeVoucher: React.FC = () => {
               </div>
               <div className="flex gap-10">
                 <div className="w-1/4">
-                  <label className="label" htmlFor="typeVoucher">
+                  <label className="label" htmlFor="typeVoucherId">
                     Loại Voucher
                   </label>
                   <Form.Item
-                    name="tpeVoucher"
+                    name="typeVoucherId"
                     rules={[
                       {
                         required: true,
@@ -120,26 +118,25 @@ const AddCodeVoucher: React.FC = () => {
                   </Form.Item>
                 </div>
                 <div className="w-1/3">
-                  <label className="label" htmlFor="quantityVoucher">
+                  <label className="label" htmlFor="amount">
                     Số lượng mã
                   </label>
                   <Form.Item
-                    name="codeVoucher"
+                    name="amount"
                     rules={[
                       {
                         required: true,
-                        message: "Vui lòng nhập  số lượng mã voucher",
+                        message: "Vui lòng nhập số lượng mã voucher",
                       },
                     ]}
                     hasFeedback
                   >
                     <InputNumber
+                      id="amount"
                       min={1}
-                      defaultValue={3}
                       size="large"
                       className="w-full"
                     />
-                    ;
                   </Form.Item>
                 </div>
                 <div className="w-1/3">

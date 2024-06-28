@@ -45,6 +45,7 @@ const ManagerAddress: React.FC = () => {
       addShipAddress(paramPostShipAddress).then((res) => {
         setListShipAddress([...listShipAddress, res]);
       });
+      messageApi.success("Thêm địa chỉ thành công");
       setOpenModalAddNewAddress(false);
     });
   };
@@ -79,11 +80,12 @@ const ManagerAddress: React.FC = () => {
           listShipAddress.map((item) => (item.id === idAddress ? res : item))
         );
       });
+      messageApi.success("Cập nhật địa chỉ thành công");
       setOpenModalEditAddress(false);
     });
   };
 
-  useEffect(() => {
+  useEffect(() => { 
     getShipAddress().then((res) => {
       setListShipAddress(res);
     });

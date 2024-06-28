@@ -24,6 +24,12 @@ export const addTypeVoucher = async (
   return await API.post("voucher/add-typeVoucher", data);
 };
 
+export const addCodeVoucher = async (
+  data: TypeVoucher
+): Promise<AxiosResponse<any>> => {
+  return await API.post("voucher/add-codeVoucher", data);
+};
+
 export const getAllCodeVoucher = async ({
   page,
   limit,

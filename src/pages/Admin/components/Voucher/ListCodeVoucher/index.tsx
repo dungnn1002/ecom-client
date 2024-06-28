@@ -6,6 +6,7 @@ import { Input } from "antd";
 import { defaultQueryParam } from "../../../../../constants/type";
 import { getAllCodeVoucher } from "../../../../../services/voucher";
 import { TypeCodeVoucherResponse } from "../../../../../constants/type";
+import dayjs from "dayjs";
 const { Search } = Input;
 
 const columns: TableProps["columns"] = [
@@ -30,12 +31,6 @@ const columns: TableProps["columns"] = [
     title: "Số lượng",
     dataIndex: "amount",
     key: "amount",
-    render: (text) => <a>{text}</a>,
-  },
-  {
-    title: "Đã sử dụng",
-    dataIndex: "usedMount",
-    key: "usedMount",
     render: (text) => <a>{text}</a>,
   },
   {
@@ -75,11 +70,15 @@ const ListCodeVoucher: React.FC = () => {
   };
   const data = dataCodeVoucher.map((typevoucher, index) => ({
     typeVoucherId: +typevoucher.typeVoucherId,
-    fromDate: typevoucher.fromDate,
+    fromDate: typevoucher.fromDate
+      ? dayjs(typevoucher.fromDate).format("DD-MM-YYYY")
+      : "",
     stt: index + 1,
     codeVoucher: typevoucher.codeVoucher,
     amount: +typevoucher.amount,
-    toDate: typevoucher.toDate,
+    toDate: typevoucher.toDate
+      ? dayjs(typevoucher.toDate).format("DD-MM-YYYY")
+      : "",
     typeVoucher:
       typevoucher.typeVoucher.value + " " + typevoucher.typeVoucher.typeVoucher,
   }));

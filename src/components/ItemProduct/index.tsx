@@ -23,9 +23,9 @@ const ItemProduct: React.FC<ItemProductProps> = (props: ItemProductProps) => {
           style={{ width: props.width, height: "92px", padding: "0px 12px" }}
           className="product-btm"
         >
-          <a className="uppercase">
+          <div className="uppercase">
             <h4 className="product-name">{props.name}</h4>
-          </a>
+          </div>
           <div className="mt-2">
             <span className="mr-4 font-bold text-[#60b108]">
               {commonUtils.formatPriceToVND(props.discountPrice)}

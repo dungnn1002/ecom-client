@@ -21,7 +21,7 @@ const SideBar: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
   };
   const items: MenuItem[] = [
     {
-      key: "statistical",
+      key: "statisticals",
       label: "Thống kê",
       icon: <FaChartBar />,
       children: [{ key: "statistical", label: "Thống kê đơn hàng" }],

@@ -412,7 +412,9 @@ const Order: React.FC = () => {
               <Radio.Group onChange={onChangeTypeShip} value={priceTypeShip}>
                 <Space direction="vertical">
                   {listTypeShip.map((typeShip) => (
-                    <Radio value={typeShip.price}>{typeShip.name}</Radio>
+                    <Radio key={typeShip.id} value={typeShip.price}>
+                      {typeShip.name}
+                    </Radio>
                   ))}
                 </Space>
               </Radio.Group>

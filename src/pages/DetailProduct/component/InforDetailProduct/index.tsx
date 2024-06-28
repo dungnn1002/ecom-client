@@ -43,10 +43,6 @@ const paramsPostShopCart: TypeParamsPostShopCart = {
   quantity: 1,
 };
 
-const onChange = (key: string) => {
-  console.log(key);
-};
-
 const InforDetailProduct: React.FC<InforDetailProductProps> = (
   props: InforDetailProductProps
 ) => {
@@ -177,34 +173,6 @@ const InforDetailProduct: React.FC<InforDetailProductProps> = (
                   onChange={onChangeQuantity}
                 />
               </div>
-              <div className="flex items-center gap-4">
-                <label className="label text-[#333] text-base">
-                  Loại sản phẩm
-                </label>
-                <div>
-                  <Select
-                    className="w-[120px]"
-                    showSearch
-                    optionFilterProp="children"
-                    size="large"
-                    value={1}
-                    options={[
-                      {
-                        value: 1,
-                        label: "Xanh",
-                      },
-                      {
-                        value: 2,
-                        label: "Đen",
-                      },
-                      {
-                        value: 3,
-                        label: "Đỏ",
-                      },
-                    ]}
-                  />
-                </div>
-              </div>
             </div>
           </div>
           <div className=" mt-8">
@@ -215,13 +183,7 @@ const InforDetailProduct: React.FC<InforDetailProductProps> = (
         </div>
       </div>
       <div className="mt-8 cssTab">
-        <Tabs
-          className=""
-          defaultActiveKey="1"
-          items={items}
-          onChange={onChange}
-          size="middle"
-        />
+        <Tabs className="" defaultActiveKey="1" items={items} size="middle" />
       </div>
     </div>
   );

@@ -49,7 +49,7 @@ const ShopCart: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [listVoucher, setListVoucher] = useState<TypeVoucher[]>([]);
   const [totalShopCart, setTotalShopCart] = useState<number>(0);
-  const [priceTypeShip, setPriceTypeShip] = useState<number>(0); // Giá trị typeShip được chọn
+  const [priceTypeShip, setPriceTypeShip] = useState<number>(20000); // Giá trị typeShip được chọn
   const [priceDiscount, setPriceDiscount] = useState<number>(0); // Giá trị giảm giá
   const [selectedVoucher, setSelectedVoucher] = useState<TypeVoucher | null>(
     null
@@ -131,17 +131,19 @@ const ShopCart: React.FC = () => {
 
   const handleDeleteCart = (productId: number) => async () => {
     try {
-      dispatch(deleteProductShopCart(productId));
-      setListProduct((prevListProduct) =>
-        prevListProduct.filter((product) => product.id !== productId)
-      );
+      if (listProduct.length === 1) {
+        dispatch(deleteProductShopCart(productId));
+        setListProduct((prevListProduct) =>
+          prevListProduct.filter((product) => product.id !== productId)
+        );
+        navigate("/empty-cart");
+      }
     } catch (error) {
       console.log(error);
     }
   };
 
   const handleNavigateOrder = () => {
-    // pass data to order page
     localStorage.setItem("priceTypeShip", priceTypeShip.toString());
     localStorage.setItem("priceDiscount", priceDiscount.toString());
     localStorage.setItem("selectedVoucher", JSON.stringify(selectedVoucher));
@@ -217,7 +219,9 @@ const ShopCart: React.FC = () => {
         <Radio.Group onChange={onChangeTypeShip} value={priceTypeShip}>
           <Space direction="vertical">
             {listTypeShip.map((typeShip) => (
-              <Radio value={typeShip.price}>{typeShip.name}</Radio>
+              <Radio key={typeShip.id} value={typeShip.price}>
+                {typeShip.name}
+              </Radio>
             ))}
           </Space>
         </Radio.Group>

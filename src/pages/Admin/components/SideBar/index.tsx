@@ -63,15 +63,6 @@ const SideBar: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
       ],
     },
     {
-      key: "banner",
-      label: "Quản lý băng rôn",
-      icon: <PiFlagBanner />,
-      children: [
-        { key: "list-banner", label: "Danh sách băng rôn" },
-        { key: "add-banner", label: "Thêm băng rôn" },
-      ],
-    },
-    {
       key: "ship",
       label: "Quản lý loại ship",
       icon: <LiaShippingFastSolid />,
@@ -99,7 +90,7 @@ const SideBar: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
     },
   ];
   return (
-    <div style={{ width: 280 }} className="h-100%">
+    <div style={{ width: 280 }}>
       <Menu
         className="h-screen"
         mode="inline"

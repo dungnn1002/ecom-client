@@ -10,7 +10,7 @@ const Admin: React.FC = () => {
   return (
     <div>
       <HeaderAdmin onMenuToggle={toggleCollapsed} />
-      <div className="container flex pb-10">
+      <div className="container flex">
         <div>
           <SideBar collapsed={collapsed} />
         </div>

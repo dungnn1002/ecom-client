@@ -27,14 +27,6 @@ const VoucherPage: React.FC = () => {
       setListVoucher(listVoucher);
     });
   }, []);
-  function handleClickApplyVoucher(
-    typeVoucher: string,
-    maxValue: number,
-    value: string,
-    name: string
-  ): void {
-    console.log(typeVoucher, maxValue, value, name);
-  }
   return (
     <>
       <HeaderLogin />

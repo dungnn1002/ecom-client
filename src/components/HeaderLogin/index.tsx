@@ -34,7 +34,13 @@ const HeaderLogin: React.FC = () => {
       localStorage.setItem(COMMON.CART_ITEMS, JSON.stringify(listCartItem));
     }
   }, [listCartItem]);
-
+  const handleNavigate = () => {
+    if (listCartItem.length > 0) {
+      navigate("/shop-cart");
+    } else {
+      navigate("/empty-cart");
+    }
+  };
   const NavLinkItems = [
     {
       key: "home",
@@ -54,7 +60,7 @@ const HeaderLogin: React.FC = () => {
     {
       key: "about",
       name: "Giới thiệu",
-      path: "/about",
+      path: "/#",
     },
   ];
   return (
@@ -62,7 +68,7 @@ const HeaderLogin: React.FC = () => {
       <div className="header-login-container flex  justify-between items-center bg-[#e9e9e9] pl-20 pr-20 h-[40px]">
         <div className="flex contact p-1 ">
           <div>
-            <span className="uppercase text-xs pr-1">điện thoại:</span>
+            <span className="uppercase text-xs pr-1"> điện thoại:</span>
             <span className="text-xs"> 0974979259</span>
           </div>
           <div>
@@ -91,7 +97,10 @@ const HeaderLogin: React.FC = () => {
         <div className="flex info p-1">
           <div>
             {isAuthenticated ? (
-              <NavLink className="uppercase text-xs" to="/profile">
+              <NavLink
+                className="uppercase text-xs"
+                to={`/profile/${user?.id}`}
+              >
                 {userName}
               </NavLink>
             ) : (
@@ -174,7 +183,7 @@ const HeaderLogin: React.FC = () => {
           <div className="shop-cart-container">
             <MdOutlineShoppingCart
               onClick={() => {
-                navigate("/shop-cart");
+                handleNavigate();
               }}
               className="shopping-cart-icon"
             />

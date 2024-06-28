@@ -35,7 +35,7 @@ const Shop: React.FC = () => {
           limit: 2000,
           brandId: valueBrand,
           categoryId: valueCategory,
-          name: valueSearch,
+          name: "",
           sort: valueSort as "discountPrice" | "name",
           order: valueOrder as "asc" | "desc",
         });
@@ -45,7 +45,7 @@ const Shop: React.FC = () => {
       }
     };
     fetchProduct();
-  }, []);
+  }, [listProduct]);
 
   const handleChangeSort = (value: string) => {
     setValueSort(value);
@@ -137,8 +137,8 @@ const Shop: React.FC = () => {
               style={{ width: 200 }}
               onChange={handleChangeOrder}
               options={[
-                { value: "asc", label: "ASC" },
-                { value: "desc", label: "DESC" },
+                { value: "asc", label: "Tăng dần" },
+                { value: "desc", label: "Giảm dần" },
               ]}
             />
             <Search

@@ -34,15 +34,12 @@ const ListOrder: React.FC = () => {
 
   const handleViewDetail = (id: number) => {
     navigate(`/admin/detail-order/${id}`);
-    console.log(id);
   };
 
   const handleSearch = (value: string) => {
     const filtered = dataOrder.filter((order: any) =>
       order.addressUser.user.phoneNumber.includes(value)
     );
-    console.log(filtered);
-
     setFilteredData(filtered);
   };
 

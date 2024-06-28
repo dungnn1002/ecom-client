@@ -10,6 +10,7 @@ import {
   ProfilePage,
   ManagerAddress,
   ManagerOrder,
+  EmptyCart,
 } from "../pages";
 import { ManageUser, AddUser } from "../pages/Admin/components/User";
 import { ManageProduct, AddProduct } from "../pages/Admin/components/Product";
@@ -64,6 +65,7 @@ const Router: React.FC = () => {
         </Route>
         <Route element={<ProtectedRouter />}>
           <Route path="/shop-cart" element={<ShopCart />} />
+          <Route path="/empty-cart" element={<EmptyCart />} />
           <Route path="/order" element={<Order />} />
           <Route path="/detail-product/:id" element={<DetailProduct />} />
           <Route path="/profile/:id" element={<ProfilePage />} />

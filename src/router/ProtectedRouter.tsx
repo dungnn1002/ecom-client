@@ -22,18 +22,17 @@ const ProtectedRouter: React.FC<ProtectedRouterProps> = ({ role }) => {
           navigate("/login");
         }
         if (role && res.payload.role === "USER") {
-          return <> not admin</>;
+          return <> Bạn không có quyển truy cập đường link này</>;
         }
       });
     }
   }, []);
   if (isAuthenticated) {
     if (role && user?.roleId === "USER") {
-      return <> not admin</>;
+      return <> Bạn không có quyển truy cập đường link này</>;
     }
     return role === COMMON.ADMIN ? <Admin /> : <DefaultLayout />;
   }
-  // return <>Loading</>;
 };
 
 export default ProtectedRouter;

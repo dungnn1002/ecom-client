@@ -50,14 +50,14 @@ const HomePage: React.FC = () => {
         <div className="ml-28 mr-28">
           <HomeFeature></HomeFeature>
           <TopProduct
-            title={"Sản phẩm mới"}
-            description="Trải nghiệm và phá cách cùng dòng sản phẩm mới"
+            title={"Sản phẩm nổi bật"}
+            description="Trải nghiệm những sản phẩm được mua nhiều nhất"
           ></TopProduct>
           <ProductFeatured
             title={"Sản phẩm mới"}
             description="Trải nghiệm và phá cách cùng dòng sản phẩm mới"
             sort="createdAt"
-            order="asc"
+            order="desc"
           ></ProductFeatured>
         </div>
       </div>

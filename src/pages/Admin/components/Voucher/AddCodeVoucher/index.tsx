@@ -19,7 +19,6 @@ const AddCodeVoucher: React.FC = () => {
   }, []);
   const [messageApi, contextHolder] = message.useMessage();
   const handleSubmit = async (value: TypeVoucher) => {
-    console.log(value);
     try {
       const res = await addCodeVoucher(value);
       const message = res.data.message.message;

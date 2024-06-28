@@ -93,3 +93,8 @@ export const getAllComment = async ({
   });
   return data.data;
 };
+
+export const getTopProduct = async (): Promise<AxiosResponse<any>> => {
+  const data = await API.get("product/top-product");
+  return data.data;
+};

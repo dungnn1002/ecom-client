@@ -3,7 +3,12 @@ import { HeaderLogin, Footer } from "../../components";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { HomeBanner, HomeFeature, ProductFeatured } from "./components";
+import {
+  HomeBanner,
+  HomeFeature,
+  ProductFeatured,
+  TopProduct,
+} from "./components";
 
 const HomePage: React.FC = () => {
   let settings = {
@@ -44,12 +49,10 @@ const HomePage: React.FC = () => {
         </Slider>
         <div className="ml-28 mr-28">
           <HomeFeature></HomeFeature>
-          <ProductFeatured
-            title={"Sản phẩm nổi bật"}
-            description="Sản phẩm sẽ không làm bạn thất vọng"
-            sort="discountPrice"
-            order="desc"
-          ></ProductFeatured>
+          <TopProduct
+            title={"Sản phẩm mới"}
+            description="Trải nghiệm và phá cách cùng dòng sản phẩm mới"
+          ></TopProduct>
           <ProductFeatured
             title={"Sản phẩm mới"}
             description="Trải nghiệm và phá cách cùng dòng sản phẩm mới"

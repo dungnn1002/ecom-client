@@ -58,7 +58,7 @@ const Order: React.FC = () => {
     useState<boolean>(false);
   const [form] = Form.useForm();
   const [messageApi, contextHolder] = message.useMessage();
-  const handleOrder = () => {
+  const handleOrder = async () => {
     const paramPostOrder = {
       addressUserId: listShipAddress[selectedAddress].id,
       isPaymentOnline: selectedPayment === "online" ? 1 : 0,
@@ -72,7 +72,7 @@ const Order: React.FC = () => {
         };
       }),
     };
-    dispatch(deleteAllProductShopCart(paramPostOrder));
+    await dispatch(deleteAllProductShopCart(paramPostOrder));
     setListProduct([]);
     setSelectedVoucher(null);
     messageApi.success("Đặt hàng thành công");

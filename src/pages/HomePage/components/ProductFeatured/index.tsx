@@ -9,6 +9,7 @@ interface ItemProductProps {
   title: string;
   description: string;
   order: string;
+  sort: string;
 }
 
 const ProductFeatured: React.FC<ItemProductProps> = (
@@ -28,7 +29,7 @@ const ProductFeatured: React.FC<ItemProductProps> = (
         const res = await getAllProductByFilter({
           page: 1,
           limit: 2000,
-          sort: "discountPrice",
+          sort: props.sort as "discountPrice" | "name" | "createdAt",
           order: props.order as "asc" | "desc",
           brandId: 0,
           categoryId: 0,

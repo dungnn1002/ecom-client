@@ -58,7 +58,7 @@ export const getAllProductByFilter = async ({
   brandId: number;
   categoryId: number;
   name: string;
-  sort: "discountPrice" | "name";
+  sort: "discountPrice" | "name" | "createdAt";
   order: "asc" | "desc";
 }): Promise<AxiosResponse<any>> => {
   const data = await API.get("product/all-product-filter", {

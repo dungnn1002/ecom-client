@@ -210,7 +210,7 @@ const AddProduct: React.FC = () => {
                   <Select
                     className="w-full"
                     showSearch
-                    placeholder="Chọn loại sản phẩm"
+                    placeholder="Chọn nhãn hàng"
                     optionFilterProp="children"
                     size="large"
                     options={brands}

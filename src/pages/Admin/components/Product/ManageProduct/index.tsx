@@ -18,6 +18,7 @@ import {
   getAllProduct,
   editProduct,
   deleteProduct,
+  getAllProductByFilter,
 } from "../../../../../services/product";
 import { AdminButton } from "../../../../../components";
 import MarkdownIt from "markdown-it";
@@ -63,10 +64,12 @@ const ListCategory: React.FC = () => {
   useEffect(() => {
     const fetchBrands = async () => {
       const processedBrands = await fetchAndProcessBrands();
+      processedBrands.unshift({ label: "Tất cả", value: 0 });
       setBrands(processedBrands);
     };
     const fetchCategory = async () => {
       const processedCategory = await fetchAndProcessCategory();
+      processedCategory.unshift({ label: "Tất cả", value: 0 });
       setCategory(processedCategory);
     };
     fetchBrands();
@@ -185,11 +188,23 @@ const ListCategory: React.FC = () => {
   const [form] = Form.useForm();
   const [dataProduct, setDataProduct] = useState<ProductType[]>([]);
   const [productId, setProductId] = useState<number | null>(null);
+  const [valueOrder, setValueOrder] = useState<string>("asc");
+  const [valueSearch, setValueSearch] = useState<string>("");
+  const [valueBrand, setValueBrand] = useState<number>(0);
+  const [valueCategory, setValueCategory] = useState<number>(0);
   useEffect(() => {
     fetchAllProduct();
   }, []);
   const fetchAllProduct = async () => {
-    const res = await getAllProduct({ ...defaultQueryParam });
+    const res = await getAllProductByFilter({
+      page: 1,
+      limit: 2000,
+      brandId: valueBrand,
+      categoryId: valueCategory,
+      name: valueSearch,
+      sort: "name",
+      order: valueOrder as "asc" | "desc",
+    });
     const data: ProductType[] = res.data.map((product: any, index: number) => ({
       stt: index + 1,
       productName: product.name,
@@ -234,6 +249,15 @@ const ListCategory: React.FC = () => {
     // form.resetFields();
     setOpen(false);
   };
+  const handleChangeBrand = (value: string) => {
+    setValueBrand(parseInt(value));
+  };
+  const handleChangeCategory = (value: string) => {
+    setValueCategory(parseInt(value));
+  };
+  const handleSearch = () => {
+    fetchAllProduct();
+  };
   return (
     <div>
       {contextHolder}
@@ -244,11 +268,32 @@ const ListCategory: React.FC = () => {
           <span>Danh sách sản phẩm</span>
         </div>
         <div className="px-4">
-          <div className="flex justify-between items-center py-2">
-            <Search
-              placeholder="Tìm kiếm theo tên sản phẩm"
-              style={{ width: 320 }}
-            />
+          <div className="flex justify-between items-center">
+            <div className="flex gap-4 items-center py-2">
+              <Select
+                className="w-1/4"
+                showSearch
+                placeholder="Chọn nhãn hàng"
+                optionFilterProp="children"
+                options={brands}
+                onChange={handleChangeBrand}
+              />
+              <Select
+                className="w-1/4"
+                showSearch
+                placeholder="Chọn loại sản phẩm"
+                optionFilterProp="children"
+                options={category}
+                onChange={handleChangeCategory}
+              />
+              <Search
+                placeholder="Tìm kiếm theo tên sản phẩm"
+                style={{ width: 320 }}
+                onClick={() => handleSearch()}
+                onChange={(e) => setValueSearch(e.target.value)}
+                onSearch={handleSearch}
+              />
+            </div>
             <button className="p-2 bg-green-700 rounded-md text-white">
               Xuất excel
             </button>

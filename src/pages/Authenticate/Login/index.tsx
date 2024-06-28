@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ".././index.scss";
-import { Form, Input } from "antd";
+import { Form, Input, message } from "antd";
 import { LoginButton, HeaderLogin, Footer } from "../../../components";
 import { BiLockAlt } from "react-icons/bi";
 import { FaFacebook, FaRegUser } from "react-icons/fa";
@@ -21,6 +21,7 @@ const Login: React.FC = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const { from } = location.state || { from: { pathname: "string" } };
+  const [messageApi, contextHolder] = message.useMessage();
   const handleLogin = async (data: LoginState) => {
     try {
       await dispatch(login(data)).then((res) => {
@@ -30,6 +31,8 @@ const Login: React.FC = () => {
           } else {
             navigate("/admin");
           }
+        } else {
+          messageApi.error("Email hoặc mật khẩu sai");
         }
       });
     } catch (error) {
@@ -46,6 +49,7 @@ const Login: React.FC = () => {
   }, []);
   return (
     <>
+      {contextHolder}
       <HeaderLogin></HeaderLogin>
       <div className="login-container">
         <LogoLogin></LogoLogin>

@@ -84,7 +84,7 @@ const ManagerOrder: React.FC = () => {
                 <div className="flex justify-end gap-4 items-center mt-6 border-t border-gray-200 pt-4">
                   <div className="font-semibold text-gray-500">Tổng tiền:</div>
                   <div className="text-red-500 text-lg font-medium">
-                    {order.totalPrice}
+                    {commonUtils.formatPriceToVND(order.totalPrice)}
                   </div>
                 </div>
               </div>

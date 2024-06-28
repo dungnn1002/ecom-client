@@ -10,27 +10,42 @@ import { authSelector } from "../../../../redux/slices/authSlice";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
+
 const { Search } = Input;
 
 const ListOrder: React.FC = () => {
   const navigate = useNavigate();
-  const [dataOrder, setDataOrder] = useState<any>([]);
+  const [dataOrder, setDataOrder] = useState<any[]>([]);
+  const [filteredData, setFilteredData] = useState<any[]>([]);
   const { user } = useSelector(authSelector);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await getAllOrder({ ...defaultQueryParam });
         setDataOrder(res);
+        setFilteredData(res); // Initialize filteredData with the full dataset
       } catch (error) {
         message.error("Lỗi khi lấy dữ liệu");
       }
     };
     fetchData();
   }, []);
+
   const handleViewDetail = (id: number) => {
     navigate(`/admin/detail-order/${id}`);
     console.log(id);
   };
+
+  const handleSearch = (value: string) => {
+    const filtered = dataOrder.filter((order: any) =>
+      order.addressUser.user.phoneNumber.includes(value)
+    );
+    console.log(filtered);
+
+    setFilteredData(filtered);
+  };
+
   const columns: TableProps["columns"] = [
     {
       title: "Mã đơn",
@@ -95,11 +110,11 @@ const ListOrder: React.FC = () => {
     },
   ];
 
-  const data: any = dataOrder.map((order: any, index: number) => ({
+  const data = filteredData.map((order, index) => ({
     key: index,
     id: order.id,
-    phoneNumber: user?.phoneNumber,
-    email: user?.email,
+    phoneNumber: order.addressUser.user.phoneNumber,
+    email: order.addressUser.user.email,
     createdAt: dayjs(order.createdAt).format("DD/MM/YYYY"),
     typeShip: order.TypeShip.name,
     voucher: order.Voucher.codeVoucher,
@@ -109,9 +124,10 @@ const ListOrder: React.FC = () => {
         : "Thanh toán khi nhận hàng",
     status: "Chờ xác nhận",
   }));
+
   return (
     <div>
-      <div className="text-4xl font-semibold mt-4 ">Quản lý đơn hàng</div>
+      <div className="text-4xl font-semibold mt-4">Quản lý đơn hàng</div>
       <div className="border-2 mt-4">
         <div className="border-b-2 flex items-center gap-2 pl-4 py-2 bg-slate-200">
           <CiViewList />
@@ -122,7 +138,7 @@ const ListOrder: React.FC = () => {
             <Search
               placeholder="Tìm kiếm theo SĐT"
               style={{ width: 320 }}
-              // onSearch={handleSearch}
+              onSearch={handleSearch}
             />
             <button className="p-2 bg-green-700 rounded-md text-white">
               Xuất excel

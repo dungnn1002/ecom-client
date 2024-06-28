@@ -3,7 +3,6 @@ export { default as HeaderLogin } from "./HeaderLogin";
 export { default as Footer } from "./Footer";
 export { default as HeaderContent } from "./HeaderContent";
 export { default as ItemProduct } from "./ItemProduct";
-export { default as ItemBlog } from "./ItemBlog";
 export { default as AdminButton } from "./AdminButton";
 export { default as ButtonShop } from "./ButtonShop";
 export { default as DefaultLayout } from "./DefaultLayout";

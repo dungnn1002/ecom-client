@@ -7,9 +7,7 @@ import { TypeCodeVoucherResponse } from "../constants/type";
 export const getAllTypeVoucher = async ({
   page,
   limit,
-}: QueryParamType = defaultQueryParam): Promise<
-  AxiosResponse<TypeVoucherResponse[]>
-> => {
+}: QueryParamType = defaultQueryParam) => {
   const data = await API.get("voucher/all-typeVoucher", {
     params: {
       page,

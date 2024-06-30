@@ -1,10 +1,8 @@
-import { Select } from "antd";
 import React, { useState } from "react";
 import Slider from "react-slick";
-import type { InputNumberProps } from "antd";
-import { InputNumber, Tabs } from "antd";
+import { InputNumber, Tabs, message } from "antd";
 import { ButtonShop } from "../../../../components";
-import type { TabsProps } from "antd";
+import type { TabsProps, InputNumberProps } from "antd";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "./index.scss";
@@ -14,6 +12,7 @@ import { addProductShopCart } from "../../../../redux/actions/shopCart.action";
 import { useSelector } from "react-redux";
 import { authSelector } from "../../../../redux/slices/authSlice";
 import { ReviewProduct } from "./component";
+
 type TypeSize = {
   id: number;
   productId: number;
@@ -48,14 +47,20 @@ const InforDetailProduct: React.FC<InforDetailProductProps> = (
 ) => {
   const dispatch = useAppDispatch();
   const { user } = useSelector(authSelector);
-  const handleAddShopCart = () => {
+  const [messageApi, contextHolder] = message.useMessage();
+  const handleAddShopCart = async () => {
     paramsPostShopCart.userId = user?.id;
     paramsPostShopCart.productSizeId = selectedSize?.id;
     quantity && (paramsPostShopCart.quantity = quantity);
     try {
-      dispatch(addProductShopCart(paramsPostShopCart));
+      const res = await dispatch(addProductShopCart(paramsPostShopCart));
+      if (addProductShopCart.fulfilled.match(res)) {
+        messageApi.success("Thêm sản phẩm vào giỏ hàng thành công");
+      } else if (addProductShopCart.rejected.match(res)) {
+        messageApi.error("Số lượng sản phẩm không đủ");
+      }
     } catch (error) {
-      console.log(error);
+      messageApi.error("Thêm sản phẩm vào giỏ hàng thất bại");
     }
   };
   const items: TabsProps["items"] = [
@@ -94,6 +99,7 @@ const InforDetailProduct: React.FC<InforDetailProductProps> = (
   };
   return (
     <div className="container">
+      {contextHolder}
       <div className="wrap flex gap-20">
         <div className=" avatar w-[36%]">
           <div className="carouse mb-2">

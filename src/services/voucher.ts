@@ -42,3 +42,7 @@ export const getAllCodeVoucher = async ({
   });
   return data.data;
 };
+
+export const getVoucherUsedByUserId = async () => {
+  return (await API.get("users/VoucherUsedByUserId")).data;
+};

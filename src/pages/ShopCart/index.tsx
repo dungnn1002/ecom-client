@@ -21,6 +21,8 @@ import {
   deleteProductShopCart,
   updateProductShopCart,
 } from "../../redux/actions/shopCart.action";
+
+import { getVoucherUsedByUserId } from "../../services/voucher";
 export type Cart = {
   id: number;
   name: string;
@@ -48,6 +50,7 @@ const ShopCart: React.FC = () => {
   const [listTypeShip, setListTypeShip] = useState<TypeShip[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [listVoucher, setListVoucher] = useState<TypeVoucher[]>([]);
+  const [listIdVoucherUsed, setListIdVoucherUsed] = useState<number[]>([]);
   const [totalShopCart, setTotalShopCart] = useState<number>(0);
   const [priceTypeShip, setPriceTypeShip] = useState<number>(20000); // Giá trị typeShip được chọn
   const [priceDiscount, setPriceDiscount] = useState<number>(0); // Giá trị giảm giá
@@ -103,6 +106,12 @@ const ShopCart: React.FC = () => {
         };
       });
       setListVoucher(listVoucher);
+    });
+    getVoucherUsedByUserId().then((res) => {
+      const listIdVoucherUsed = res.map((item: any) => {
+        return item.voucherId;
+      });
+      setListIdVoucherUsed(listIdVoucherUsed);
     });
   }, []);
 
@@ -257,7 +266,24 @@ const ShopCart: React.FC = () => {
             ]}
           >
             {listVoucher.map((voucher) => (
-              <div key={voucher.id} className="mb-4">
+              <div
+                key={voucher.id}
+                className={`mb-4 ${
+                  listIdVoucherUsed.includes(voucher.id)
+                    ? "opacity-50 cursor-not-allowed pointer-events-none"
+                    : "cursor-pointer"
+                }`}
+                onClick={() =>
+                  !listIdVoucherUsed.includes(voucher.id) &&
+                  handleClickApplyVoucher(
+                    voucher.typeVoucher,
+                    voucher.maxValue,
+                    voucher.value,
+                    voucher.name,
+                    voucher.id
+                  )
+                }
+              >
                 <Voucher
                   id={voucher.id}
                   name={voucher.name}

@@ -30,6 +30,7 @@ import { authSelector } from "../../redux/slices/authSlice";
 import { deleteAllProductShopCart } from "../../redux/actions/shopCart.action";
 import { useAppDispatch } from "../../redux/store";
 import { useNavigate } from "react-router-dom";
+import { getVoucherUsedByUserId } from "../../services/voucher";
 const Order: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const Order: React.FC = () => {
   const [selectedPaymentOption, setSelectedPaymentOption] = useState("");
   const [listTypeShip, setListTypeShip] = useState<TypeShip[]>([]);
   const [listVoucher, setListVoucher] = useState<TypeVoucher[]>([]);
+  const [listIdVoucherUsed, setListIdVoucherUsed] = useState<number[]>([]);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [selectedVoucher, setSelectedVoucher] = useState<TypeVoucher | null>(
     null
@@ -140,6 +142,12 @@ const Order: React.FC = () => {
           JSON.parse(localStorage.getItem("selectedVoucher") || "{}")
         );
       }
+    });
+    getVoucherUsedByUserId().then((res) => {
+      const listIdVoucherUsed = res.map((item: any) => {
+        return item.voucherId;
+      });
+      setListIdVoucherUsed(listIdVoucherUsed);
     });
   }, []);
 
@@ -507,14 +515,31 @@ const Order: React.FC = () => {
                   ]}
                 >
                   {listVoucher.map((voucher) => (
-                    <div className="mb-4">
+                    <div
+                      key={voucher.id}
+                      className={`mb-4 ${
+                        listIdVoucherUsed.includes(voucher.id)
+                          ? "opacity-50 cursor-not-allowed pointer-events-none"
+                          : "cursor-pointer"
+                      }`}
+                      onClick={() =>
+                        !listIdVoucherUsed.includes(voucher.id) &&
+                        handleClickApplyVoucher(
+                          voucher.typeVoucher,
+                          voucher.maxValue,
+                          voucher.value,
+                          voucher.name,
+                          voucher.id
+                        )
+                      }
+                    >
                       <Voucher
                         id={voucher.id}
                         name={voucher.name}
                         typeVoucher={voucher.typeVoucher}
                         maxValue={voucher.maxValue}
-                        value={voucher.value}
                         amount={voucher.amount}
+                        value={voucher.value}
                         handleClickApplyVoucher={handleClickApplyVoucher}
                       />
                     </div>

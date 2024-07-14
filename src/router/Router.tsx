@@ -26,6 +26,7 @@ import {
 import ListOrder from "../pages/Admin/components/Order";
 import DetailOrder from "../pages/Admin/components/DetailOrder";
 import Statistical from "../pages/Admin/components/Statistical";
+import StatisticalUser from "../pages/Admin/components/StatisticalUser";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { COMMON } from "../constants";
 import ProtectedRouter from "./ProtectedRouter";
@@ -59,6 +60,7 @@ const Router: React.FC = () => {
           <Route path="list-order" element={<ListOrder />} />
           <Route path="detail-order/:id" element={<DetailOrder />} />
           <Route path="statistical" element={<Statistical />} />
+          <Route path="statistical-user" element={<StatisticalUser />} />
         </Route>
         <Route element={<ProtectedRouter />}>
           <Route path="/shop-cart" element={<ShopCart />} />

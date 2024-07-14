@@ -24,7 +24,10 @@ const SideBar: React.FC<{ collapsed: boolean }> = ({ collapsed }) => {
       key: "statisticals",
       label: "Thống kê",
       icon: <FaChartBar />,
-      children: [{ key: "statistical", label: "Thống kê đơn hàng" }],
+      children: [
+        { key: "statistical", label: "Thống kê đơn hàng" },
+        { key: "statistical-user", label: "Người dùng nổi bật" },
+      ],
     },
     {
       key: "user",

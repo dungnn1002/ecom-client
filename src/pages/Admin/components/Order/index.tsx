@@ -17,8 +17,6 @@ const ListOrder: React.FC = () => {
   const navigate = useNavigate();
   const [dataOrder, setDataOrder] = useState<any[]>([]);
   const [filteredData, setFilteredData] = useState<any[]>([]);
-  const { user } = useSelector(authSelector);
-
   useEffect(() => {
     const fetchData = async () => {
       try {

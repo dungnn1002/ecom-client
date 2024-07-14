@@ -65,6 +65,16 @@ export const getAllOrderByUser = async () => {
   return (await API.get("users/order-by-user")).data;
 };
 
+export const getAllPriceOrderByUser = async (userId: number) => {
+  return (
+    await API.get("order/totalPrice", {
+      params: {
+        userId,
+      },
+    })
+  ).data;
+};
+
 export const getAllOrder = async ({
   page,
   limit,

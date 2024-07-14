@@ -40,7 +40,10 @@ const ManagerAddress: React.FC = () => {
         shipName: form.getFieldValue("shipName"),
         shipPhone: form.getFieldValue("shipPhone"),
         shipEmail: form.getFieldValue("shipEmail"),
-        shipAddress: form.getFieldValue("shipAddress"),
+        province: form.getFieldValue("province"),
+        district: form.getFieldValue("district"),
+        ward: form.getFieldValue("ward"),
+        address: form.getFieldValue("address"),
       };
       addShipAddress(paramPostShipAddress).then((res) => {
         setListShipAddress([...listShipAddress, res]);
@@ -73,7 +76,10 @@ const ManagerAddress: React.FC = () => {
         shipName: form2.getFieldValue("shipName"),
         shipPhone: form2.getFieldValue("shipPhone"),
         shipEmail: form2.getFieldValue("shipEmail"),
-        shipAddress: form2.getFieldValue("shipAddress"),
+        province: form2.getFieldValue("province"),
+        district: form2.getFieldValue("district"),
+        ward: form2.getFieldValue("ward"),
+        address: form2.getFieldValue("address"),
       };
       editShipAddress(paramPostShipAddress).then((res) => {
         setListShipAddress(
@@ -85,7 +91,7 @@ const ManagerAddress: React.FC = () => {
     });
   };
 
-  useEffect(() => { 
+  useEffect(() => {
     getShipAddress().then((res) => {
       setListShipAddress(res);
     });
@@ -156,11 +162,52 @@ const ManagerAddress: React.FC = () => {
                   >
                     <Input />
                   </Form.Item>
+                  <div className="flex gap-4">
+                    <Form.Item
+                      label="Tỉnh/Thành phố"
+                      name="province"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Vui lòng nhập tỉnh/thành phố",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      label="Quận/Huyện"
+                      name="district"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Vui lòng nhập quận/huyện",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                    <Form.Item
+                      label="Phường/Xã"
+                      name="ward"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Vui lòng nhập phường/xã",
+                        },
+                      ]}
+                    >
+                      <Input />
+                    </Form.Item>
+                  </div>
                   <Form.Item
                     label="Địa chỉ"
-                    name="shipAddress"
+                    name="address"
                     rules={[
-                      { required: true, message: "Vui lòng nhập địa chỉ" },
+                      {
+                        required: true,
+                        message: "Vui lòng nhập địa chỉ",
+                      },
                     ]}
                   >
                     <Input />
@@ -192,7 +239,16 @@ const ManagerAddress: React.FC = () => {
                       </span>
                     </div>
                   </div>
-                  <span className="text-gray-600">{item.shipAddress}</span>
+                  <span className="text-gray-600">
+                    {" "}
+                    {item.address +
+                      ", " +
+                      item.ward +
+                      ", " +
+                      item.district +
+                      ", " +
+                      item.province}
+                  </span>
                   <Modal
                     title="Chỉnh sửa địa chỉ"
                     open={openModalEditAddress}
@@ -251,11 +307,52 @@ const ManagerAddress: React.FC = () => {
                       >
                         <Input />
                       </Form.Item>
+                      <div className="flex gap-4">
+                        <Form.Item
+                          label="Tỉnh/Thành phố"
+                          name="province"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Vui lòng nhập tỉnh/thành phố",
+                            },
+                          ]}
+                        >
+                          <Input />
+                        </Form.Item>
+                        <Form.Item
+                          label="Quận/Huyện"
+                          name="district"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Vui lòng nhập quận/huyện",
+                            },
+                          ]}
+                        >
+                          <Input />
+                        </Form.Item>
+                        <Form.Item
+                          label="Phường/Xã"
+                          name="ward"
+                          rules={[
+                            {
+                              required: true,
+                              message: "Vui lòng nhập phường/xã",
+                            },
+                          ]}
+                        >
+                          <Input />
+                        </Form.Item>
+                      </div>
                       <Form.Item
                         label="Địa chỉ"
-                        name="shipAddress"
+                        name="address"
                         rules={[
-                          { required: true, message: "Vui lòng nhập địa chỉ" },
+                          {
+                            required: true,
+                            message: "Vui lòng nhập địa chỉ",
+                          },
                         ]}
                       >
                         <Input />

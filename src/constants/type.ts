@@ -47,7 +47,10 @@ export type ListType = {
 
 export type TypeShipAddressResponse = {
   id: number;
-  shipAddress: string;
+  province: string;
+  district: string;
+  ward: string;
+  address: string;
   shipName: string;
   shipPhone: string;
   shipEmail: string;
@@ -55,7 +58,10 @@ export type TypeShipAddressResponse = {
 
 export type ParamPostShipAddress = {
   userId: number;
-  shipAddress: string;
+  province: string;
+  district: string;
+  ward: string;
+  address: string;
   shipName: string;
   shipPhone: string;
   shipEmail: string;

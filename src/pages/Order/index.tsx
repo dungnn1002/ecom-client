@@ -220,7 +220,10 @@ const Order: React.FC = () => {
         shipName: form.getFieldValue("shipName"),
         shipPhone: form.getFieldValue("shipPhone"),
         shipEmail: form.getFieldValue("shipEmail"),
-        shipAddress: form.getFieldValue("shipAddress"),
+        province: form.getFieldValue("province"),
+        district: form.getFieldValue("district"),
+        ward: form.getFieldValue("ward"),
+        address: form.getFieldValue("address"),
       };
       addShipAddress(paramPostShipAddress).then((res) => {
         setListShipAddress([...listShipAddress, res]);
@@ -260,7 +263,13 @@ const Order: React.FC = () => {
                     </div>
                   </div>
                   <div className="address-detail">
-                    {listShipAddress[selectedAddress].shipAddress}
+                    {listShipAddress[selectedAddress].address +
+                      ", " +
+                      listShipAddress[selectedAddress].ward +
+                      ", " +
+                      listShipAddress[selectedAddress].district +
+                      ", " +
+                      listShipAddress[selectedAddress].province}
                   </div>
                   <div
                     className="edit text-[#60b108] cursor-pointer"
@@ -304,7 +313,16 @@ const Order: React.FC = () => {
                         Xóa
                       </span>
                     </div>
-                    <span className="text-gray-500">{address.shipAddress}</span>
+                    <span className="text-gray-500">
+                      {" "}
+                      {listShipAddress[selectedAddress].address +
+                        ", " +
+                        listShipAddress[selectedAddress].ward +
+                        ", " +
+                        listShipAddress[selectedAddress].district +
+                        ", " +
+                        listShipAddress[selectedAddress].province}
+                    </span>
                   </div>
                 </Radio>
               ))}
@@ -367,10 +385,53 @@ const Order: React.FC = () => {
               >
                 <Input />
               </Form.Item>
+              <div className="flex gap-4">
+                <Form.Item
+                  label="Tỉnh/Thành phố"
+                  name="province"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng nhập tỉnh/thành phố",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Quận/Huyện"
+                  name="district"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng nhập quận/huyện",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+                <Form.Item
+                  label="Phường/Xã"
+                  name="ward"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Vui lòng nhập phường/xã",
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </div>
               <Form.Item
                 label="Địa chỉ"
-                name="shipAddress"
-                rules={[{ required: true, message: "Vui lòng nhập địa chỉ" }]}
+                name="address"
+                rules={[
+                  {
+                    required: true,
+                    message: "Vui lòng nhập địa chỉ",
+                  },
+                ]}
               >
                 <Input />
               </Form.Item>

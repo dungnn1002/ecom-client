@@ -117,7 +117,7 @@ const ListOrder: React.FC = () => {
       order.isPaymentOnline === 1
         ? "Thanh toán Online"
         : "Thanh toán khi nhận hàng",
-    status: "Chờ xác nhận",
+    status: "Hoàn thành",
   }));
 
   return (

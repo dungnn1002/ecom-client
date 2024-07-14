@@ -39,7 +39,7 @@ const ManagerOrder: React.FC = () => {
                     ShopEase
                   </div>
                   <div className="text-red-500 text-sm flex items-center gap-2">
-                    Chờ xác nhận
+                    Hoàn thành
                     <span className="text-gray-400">|</span>
                     <span className="text-red-500">
                       {order.isPaymentOnline === 1
